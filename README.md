@@ -1,4 +1,4 @@
-# Simple-Company-Profile-CMS
+# Simple Company Profile CMS
 
 This application is for simple company profile with already have content
 management system. This application running with Laravel 7.
@@ -13,6 +13,7 @@ management system. This application running with Laravel 7.
   - Gallery
   - Slideshow
   - Static Page
+  - Agenda with Calendar Style
   - Advertisement
   - Annoucement
   - Message
@@ -20,10 +21,8 @@ management system. This application running with Laravel 7.
   - General Setting
   - Dynamic Menu Navigation for landing page
 
-
-
 ## Requirement
-- php 7.3
+- php >= 7.3
 - composer
 
 ## Start Using
