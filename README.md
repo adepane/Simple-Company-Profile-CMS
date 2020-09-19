@@ -26,7 +26,7 @@ $ composer install
 
 After you done with it, now please create new key
 ```
-$ php artisan key:migrate
+$ php artisan key:generate
 ```
 
 To run it in the browser, you can use valet like `portal.test`, or if you don't have valet installed, you run development serve like so
