@@ -34,9 +34,17 @@ To run it in the browser, you can use valet like `portal.test`, or if you don't 
 $ php artisan serve
 ```
 
+Before access the installer, purge the all configuration
+```
+$ php artisan optimize:clear
+```
+
 Access the installer 
 ```
 http://127.0.0.0:8000/install
 ```
 
+## Note
+- This application using some javascript package include axios from cdn, so you
+  need some internet to using it.
 
