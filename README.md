@@ -32,7 +32,7 @@ First, git clode this repo
 $ git clone https://github.com/adepane/Simple-Company-Profile-CMS.git
 ```
 
-Enter to directory that you clonned, the create environment your database. Then, copy config from .env.example to .env, in your command line.
+Enter to directory that you clonned, then create environment your database with copy config from .env.example to .env, in your command line.
 ```
 $ cp .env.sample .env
 ```
@@ -64,7 +64,7 @@ http://127.0.0.0:8000/install
 
 Access the Admin Panel
 ```
-http://127.0.0.0:8000/install
+http://127.0.0.0:8000/panelroom
 ```
 
 ## Note
