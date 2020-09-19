@@ -3,6 +3,25 @@
 This application is for simple company profile with already have content
 management system. This application running with Laravel 7.
 
+## Feature
+- Landing Page
+- Admin Page
+  - Dashboard
+  - News
+    - Category
+    - Tag
+  - Gallery
+  - Slideshow
+  - Static Page
+  - Advertisement
+  - Annoucement
+  - Message
+  - Users
+  - General Setting
+  - Dynamic Menu Navigation for landing page
+
+
+
 ## Requirement
 - php 7.3
 - composer
@@ -44,7 +63,13 @@ Access the installer
 http://127.0.0.0:8000/install
 ```
 
+Access the Admin Panel
+```
+http://127.0.0.0:8000/install
+```
+
 ## Note
 - This application using some javascript package include axios from cdn, so you
   need some internet to using it.
-
+- This application still using Indonesian Language, for the future I will update
+  all to English
