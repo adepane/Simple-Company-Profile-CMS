@@ -51,14 +51,14 @@ After you done with it, now please create new key
 $ php artisan key:generate
 ```
 
-To run it in the browser, you can use valet like `portal.test`, or if you don't have valet installed, you run development serve like so
-```
-$ php artisan serve
-```
-
 Before access the installer, purge the all configuration
 ```
 $ php artisan optimize:clear
+```
+
+To run it in the browser, you can use valet like `yourdirname.test`, or if you don't have valet installed, you run development serve like so
+```
+$ php artisan serve
 ```
 
 ## Start Using
