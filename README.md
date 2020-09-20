@@ -25,14 +25,18 @@ management system. This application running with Laravel 7.
 - php >= 7.3
 - composer
 
-## Start Using
+## Start Config
 First, git clode this repo
 
 ```
-$ git clone https://github.com/adepane/Simple-Company-Profile-CMS.git
+$ git clone https://github.com/adepane/Simple-Company-Profile-CMS.git "yourdirname"
 ```
 
-Enter to directory that you clonned, then create environment your database with copy config from .env.example to .env, in your command line.
+Enter to directory that you clonned, then create environment your database with
+copy config from .env.example to .env, in your command line.
+```
+$ cd yourdirname
+```
 ```
 $ cp .env.sample .env
 ```
@@ -57,6 +61,8 @@ Before access the installer, purge the all configuration
 $ php artisan optimize:clear
 ```
 
+## Start Using
+
 Access the installer 
 ```
 http://127.0.0.0:8000/install
@@ -66,6 +72,15 @@ Access the Admin Panel
 ```
 http://127.0.0.0:8000/panelroom
 ```
+
+## Create Admin Account
+I have make a simple console for create admin account, running from your cli.
+```
+$ php artisan create:admin
+```
+
+Your will get some input, after that you can login.
+
 
 ## Note
 - This application using some javascript package include axios from cdn, so you
