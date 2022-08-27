@@ -22,7 +22,7 @@ management system. This application running with Laravel 9 that update from 7.
   - Dynamic Menu Navigation for landing page
 
 ## Requirement
-- php >= 7.3
+- php >= 8.0.2
 - composer
 
 ## Start Config
