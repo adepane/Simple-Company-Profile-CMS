@@ -1,7 +1,7 @@
 # Simple Company Profile CMS
 
 This application is for simple company profile with already have content
-management system. This application running with Laravel 7.
+management system. This application running with Laravel 9 that update from 7.
 
 ## Feature
 - Landing Page
