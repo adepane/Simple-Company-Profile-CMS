@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Agenda;
 use App\Models\Media;
 use App\Models\Document;
-use App\Models\Pengumuman;
+use App\Models\Announcement;
 use App\Models\Pesan;
 use App\Models\Post;
 use App\Models\User;
@@ -46,11 +46,11 @@ class DashboardController extends Controller
         return $getAgenda;
     }
 
-    public function getPengumuman()
+    public function getAnnouncement()
     {
-        $getPengumuman = Pengumuman::count();
+        $getAnnouncement = Announcement::count();
 
-        return $getPengumuman;
+        return $getAnnouncement;
     }
 
     public function getUsers()
@@ -62,6 +62,6 @@ class DashboardController extends Controller
 
     public function index()
     {
-        return view('panel.home')->with('posts', $this->getPosts())->with('medias', $this->getMedia())->with('message', $this->getMessage())->with('agenda', $this->getAgenda())->with('pengumuman', $this->getPengumuman())->with('users', $this->getUsers());
+        return view('panel.home')->with('posts', $this->getPosts())->with('medias', $this->getMedia())->with('message', $this->getMessage())->with('agenda', $this->getAgenda())->with('announcement', $this->getAnnouncement())->with('users', $this->getUsers());
     }
 }

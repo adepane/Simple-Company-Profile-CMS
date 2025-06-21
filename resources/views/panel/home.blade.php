@@ -131,10 +131,10 @@
                                             </g>
                                         </svg> </span>
                                     <span class="kt-widget17__subtitle">
-                                        Pengumuman
+                                        Announcement
                                     </span>
                                     <span class="kt-widget17__desc">
-                                        {!!$pengumuman!!} Pengumuman
+                                        {!!$announcement!!} Announcement
                                     </span>
                                 </div>
                                 <div class="kt-widget17__item">

@@ -11,7 +11,7 @@ use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\DocumentController;
-use App\Http\Controllers\PengumumanController;
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\PesanController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SettingController;
@@ -48,8 +48,8 @@ Route::get('/topik/{slug}', [HomeController::class, 'showCategories'])->name('ho
 Route::get('/agenda', [HomeController::class, 'listAgenda'])->name('home.listAgenda');
 Route::get('/agenda/{id}/{slug}', [HomeController::class, 'showAgenda'])->name('home.showAgenda');
 
-Route::get('/pengumuman', [HomeController::class, 'listPengumuman'])->name('home.listPengumuman');
-Route::get('/pengumuman/{id}/{slug}', [HomeController::class, 'showPengumuman'])->name('home.showPengumuman');
+Route::get('/announcement', [HomeController::class, 'listAnnouncement'])->name('home.listAnnouncement');
+Route::get('/announcement/{id}/{slug}', [HomeController::class, 'showAnnouncement'])->name('home.showAnnouncement');
 
 Route::get('/galeri', [HomeController::class, 'listGallery'])->name('home.listGallery');
 Route::get('/galeri/{id}', [HomeController::class, 'showGallery'])->name('home.showGallery');
@@ -87,7 +87,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
     Route::resource('slider', SliderController::class);
     Route::resource('users', UsersController::class);
-    Route::resource('pengumuman', PengumumanController::class);
+    Route::resource('announcement', AnnouncementController::class);
     Route::resource('pesan', PesanController::class);
     Route::resource('gallery', GalleryController::class);
     Route::resource('iklan', IklanController::class);

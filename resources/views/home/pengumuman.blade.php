@@ -49,13 +49,13 @@
                                 <div class="media-body pl-15">
                                     <div class="event-content pull-left flip">
                                         <h4 class="entry-title text-white text-uppercase m-0 mt-5"><a
-                                                href="{{route('home.showPengumuman',[$item->id,$item->slug])}}">{{$item->judul}}</a>
+                                                href="{{route('home.showAnnouncement',[$item->id,$item->slug])}}">{{$item->title}}</a>
                                         </h4>
                                     </div>
                                 </div>
                             </div>
                             <p class="mt-10">{{CMS::excerpt($item->content)}}</p>
-                            <a href="{{route('home.showPengumuman',[$item->id,$item->slug])}}"
+                            <a href="{{route('home.showAnnouncement',[$item->id,$item->slug])}}"
                                 class="btn-read-more">Selanjutnya</a>
                             <div class="clearfix"></div>
                         </div>

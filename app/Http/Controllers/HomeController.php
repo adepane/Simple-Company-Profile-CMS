@@ -6,7 +6,7 @@ use App\Models\Agenda;
 use App\Models\Gallery;
 use App\Models\Page;
 use App\Models\Category;
-use App\Models\Pengumuman;
+use App\Models\Announcement;
 use App\Models\Pesan;
 use App\Models\Post;
 use App\Models\Tag;
@@ -89,22 +89,22 @@ class HomeController extends Controller
         return view('home.agenda_single', ['data' => $getAgenda]);
     }
 
-    public function listPengumuman()
+    public function listAnnouncement()
     {
-        $getPengumuman = Pengumuman::orderBy('id', 'desc')->paginate(10)->onEachSide(2);
+        $getAnnouncement = Announcement::orderBy('id', 'desc')->paginate(10)->onEachSide(2);
 
-        return view('home.pengumuman', ['data' => $getPengumuman]);
+        return view('home.pengumuman', ['data' => $getAnnouncement]);
     }
 
-    public function showPengumuman(Request $request, $id, $slug)
+    public function showAnnouncement(Request $request, $id, $slug)
     {
-        $getPengumuman = Pengumuman::find($id);
-        if ($getPengumuman == null) {
+        $getAnnouncement = Announcement::find($id);
+        if ($getAnnouncement == null) {
             abort(404);
         } else {
-            $getPengumuman->increment('view');
+            $getAnnouncement->increment('view');
 
-            return view('home.pengumuman_single', ['data' => $getPengumuman]);
+            return view('home.pengumuman_single', ['data' => $getAnnouncement]);
         }
     }
 
