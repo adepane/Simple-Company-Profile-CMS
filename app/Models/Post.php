@@ -20,6 +20,8 @@ class Post extends Model
         'author',
         'category_id',
         'media_id',
+        'ket_photo',
+        'yt_video',
         'status',
         'view',
         'publish_date',

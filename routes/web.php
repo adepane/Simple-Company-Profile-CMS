@@ -57,7 +57,7 @@ Route::get('/galeri/{id}', [HomeController::class, 'showGallery'])->name('home.s
 Route::get('/search', [HomeController::class, 'showSearch']);
 
 Auth::routes();
-Route::group(['prefix' => 'panelroom'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/', [DashboardController::class, 'index']);
     Route::post('post/addTags', [PostController::class, 'addTags'])->name('post.addTags');
 

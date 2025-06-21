@@ -8,207 +8,346 @@ use App\Models\Terms;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use Str;
+use Illuminate\Support\Str;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class PostController extends Controller
 {
-    public function __construct()
+    /**
+     * YouTube URL validation regex pattern
+     */
+    private const YOUTUBE_REGEX = '#https?://(?:www\.)?youtube\.com/watch\?v=([^&]+?)#';
+
+    /**
+     * Post model instance
+     */
+    private Post $postModel;
+
+    /**
+     * Constructor with dependency injection
+     */
+    public function __construct(Post $postModel)
     {
-        $this->middleware('auth');
+        $this->postModel = $postModel;
     }
 
-    protected function checkSlug($slug,$id=0,$oldSlug=null)
+    /**
+     * Generate a unique slug for the post
+     *
+     * @param string $slug Base slug to check
+     * @param int $id Post ID (for updates)
+     * @param string|null $oldSlug Previous slug (for updates)
+     * @return string Unique slug
+     */
+    public function generateUniqueSlug(string $slug, int $id = 0, ?string $oldSlug = null): string
     {
-        $checkSlug =  Post::select('slug')->where('slug','like',$slug.'%')
+        $slugCount = $this->postModel->select('slug')
+            ->where('slug', 'like', $slug . '%')
             ->where('id', '<>', $id)
             ->count();
 
-        if (!empty($checkSlug)) {
-            if ($id != 0) {
-                if (Str::contains($oldSlug,$slug)) {
-                    $realSlug = Post::find($id);
-                    if ($realSlug->slug != $oldSlug) {
-                        $newSlug = $slug.'-'.($checkSlug+1);
-                    } else {
-                        $newSlug = $oldSlug;
-                    }
-                } else {
-                    $newSlug = $slug.'-'.($checkSlug+1);
-                }
-            } else {
-                $newSlug = $slug.'-'.($checkSlug+1);
-            }
-        } else {
-            $newSlug = $slug;
+        // If no similar slugs exist, return the original slug
+        if ($slugCount === 0) {
+            return $slug;
         }
-        return $newSlug;
+
+        // For existing posts being updated
+        if ($id > 0 && $oldSlug) {
+            // If the old slug contains the new slug base
+            if (Str::contains($oldSlug, $slug)) {
+                $existingPost = $this->postModel->find($id);
+                // If the stored slug matches the old slug, keep using it
+                if ($existingPost && $existingPost->slug === $oldSlug) {
+                    return $oldSlug;
+                }
+            }
+        }
+
+        // Generate a new unique slug by appending a number
+        return $slug . '-' . ($slugCount + 1);
     }
 
-    public function index()
+    /**
+     * Display a listing of posts
+     *
+     * @return View
+     */
+    public function index(): View
     {
-        $getModul = Post::select([
-            'id',
-            'title',
-            'slug',
-            'author',
-            'category_id',
-            'status',
-            'view',
-            'created_at',
-            'updated_at',
-        ])
-        ->with('kategories')
-        ->with('authors')
-        ->with('tags')
-        ->orderBy('publish_date','desc')
-        ->paginate(10)->onEachSide(2);
+        $posts = $this->postModel->query()
+            ->select([
+                'id',
+                'title',
+                'slug',
+                'author',
+                'category_id',
+                'status',
+                'view',
+                'created_at',
+                'updated_at',
+            ])
+            ->with(['kategories', 'authors', 'tags'])
+            ->orderBy('publish_date', 'desc')
+            ->paginate(10)
+            ->onEachSide(2);
 
-        return view('panel.berita.index',['data'=>$getModul]);
+        return view('panel.post.index', ['data' => $posts]);
     }
 
-    public function create()
+    /**
+     * Show the form for creating a new post
+     *
+     * @return View
+     */
+    public function create(): View
     {
-        return view('panel.berita.create');
+        return view('panel.post.create');
     }
 
-    public function store(Request $request)
+    /**
+     * Get validation rules for post
+     *
+     * @return array
+     */
+    protected function getValidationRules(): array
     {
-        $regex = '#https?://(?:www\.)?youtube\.com/watch\?v=([^&]+?)#';
-        $this->validate(
-            $request,
-            [
-                'yt_video'          => 'nullable|regex:' . $regex,
-                'file_gambar'          => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
-            ],
-            [
-                'file_gambar.image' => 'File gambar tidak valid',
-                'yt_video.regex' => 'Link Youtube Salah',
-            ]
-        );
-        $modul = new Post;
-        $modul->title = $request->title;
-        $createSlug = Str::slug($request->title);
-        $modul->slug = $this->checkSlug($createSlug);
-        $modul->content = $request->content;
-        $modul->author = Auth::user()->id;
-        $modul->category_id = $request->kategori;
-        $modul->media_id = $request->id_media;
-        $modul->ket_photo = $request->ket_gambar;
-        $modul->yt_video = $request->yt_video;
-        $modul->publish_date = (!empty($request->publish_date))? Carbon::parse($request->publish_date):Carbon::now();
-        $modul->status = $request->status;
-        if ($modul->save()) {
-            if ($request->tags != null) {
-                $modul->tags()->attach($request->tags);
+        return [
+            'yt_video' => 'nullable|regex:' . self::YOUTUBE_REGEX,
+            'file_gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+        ];
+    }
+
+    /**
+     * Get validation messages for post
+     *
+     * @return array
+     */
+    protected function getValidationMessages(): array
+    {
+        return [
+            'file_gambar.image' => 'File gambar tidak valid',
+            'yt_video.regex' => 'Link Youtube Salah',
+        ];
+    }
+
+    /**
+     * Store a newly created post in storage
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function store(Request $request): RedirectResponse
+    {
+        $this->validate($request, $this->getValidationRules(), $this->getValidationMessages());
+
+        // Generate a basic slug
+        $baseSlug = Str::slug($request->title);
+
+        // Check if the slug exists
+        $slugCount = Post::where('slug', 'like', $baseSlug . '%')->count();
+        $uniqueSlug = $slugCount > 0 ? $baseSlug . '-' . ($slugCount + 1) : $baseSlug;
+
+        // Create post with mass assignment
+        $post = Post::create([
+            'title' => $request->title,
+            'slug' => $uniqueSlug,
+            'content' => $request->content,
+            'author' => Auth::id(),
+            'category_id' => $request->kategori,
+            'media_id' => $request->id_media,
+            'ket_photo' => $request->ket_gambar,
+            'yt_video' => $request->yt_video,
+            'publish_date' => $request->publish_date ? Carbon::parse($request->publish_date) : Carbon::now(),
+            'status' => $request->status,
+        ]);
+
+        if ($post) {
+            if ($request->tags) {
+                $post->tags()->attach($request->tags);
             }
             return redirect()->route('post.index')->with('message', 'Post telah ditambah');
-        } 
-    }
-
-    public function edit($id)
-    {
-        $modul = Post::find($id);
-        $getTags = $this->getTags($id);
-        return view('panel.berita.edit',['data'=>$modul,'tags'=>$getTags]);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $regex = '#https?://(?:www\.)?youtube\.com/watch\?v=([^&]+?)#';
-        $this->validate(
-            $request,
-            [
-                'yt_video'          => 'nullable|regex:' . $regex,
-                'file_gambar'          => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
-            ],
-            [
-                'file_gambar.image' => 'File Gambar Tidak Valid',
-                'yt_video.regex' => 'Link Youtube Salah',
-            ]
-        );
-        $modul = Post::find($id);
-        $modul->title = $request->title;
-        $createSlug = Str::slug($request->title);
-        $oldSlug = $modul->slug;
-        $modul->slug = $this->checkSlug($createSlug,$modul->id,$oldSlug);
-        $modul->content = $request->content;
-        $modul->author = Auth::user()->id;
-        $modul->category_id = (int) $request->kategori;
-        $modul->media_id = (int) $request->id_media;
-        $modul->ket_photo = $request->ket_gambar;
-        $modul->yt_video = $request->yt_video;
-        $modul->status = $request->status;
-        $modul->publish_date = Carbon::parse($request->publish_date);
-        $modul->tags()->detach();
-
-        if ($request->tags != null) {
-            $modul->tags()->attach($request->tags);
         }
-        if ($modul->update()) {
 
-            return redirect($request->lastState)->with('message', 'Post telah diupdate');
-        } 
+        return redirect()->back()->with('error', 'Gagal menyimpan post');
     }
 
-    public function destroy($id)
+    /**
+     * Show the form for editing the specified post
+     *
+     * @param int $id
+     * @return View
+     */
+    public function edit(int $id): View
     {
-        $modul = Post::find($id);
-        $modul->tags()->detach();
-        if ($modul->delete()) {
+        $post = $this->postModel->findOrFail($id);
+        $tags = $this->getTags($id);
+
+        return view('panel.post.edit', [
+            'data' => $post,
+            'tags' => $tags
+        ]);
+    }
+
+    /**
+     * Update the specified post in storage
+     *
+     * @param Request $request
+     * @param int $id
+     * @return RedirectResponse
+     */
+    public function update(Request $request, int $id): RedirectResponse
+    {
+        $this->validate($request, $this->getValidationRules(), $this->getValidationMessages());
+
+        $post = $this->postModel->findOrFail($id);
+        $baseSlug = Str::slug($request->title);
+        $oldSlug = $post->slug;
+
+        // Determine if we need a new slug
+        $needNewSlug = $baseSlug !== Str::slug($post->title);
+
+        // If we need a new slug, generate a unique one
+        $slug = $oldSlug;
+        if ($needNewSlug) {
+            // Check if the new slug exists in other posts
+            $slugCount = Post::where('slug', 'like', $baseSlug . '%')
+                ->where('id', '<>', $id)
+                ->count();
+            $slug = $slugCount > 0 ? $baseSlug . '-' . ($slugCount + 1) : $baseSlug;
+        }
+
+        // Update post with mass assignment
+        $updateData = [
+            'title' => $request->title,
+            'slug' => $slug,
+            'content' => $request->content,
+            'author' => Auth::id(),
+            'category_id' => (int) $request->kategori,
+            'media_id' => (int) $request->id_media,
+            'ket_photo' => $request->ket_gambar,
+            'yt_video' => $request->yt_video,
+            'status' => $request->status,
+            'publish_date' => Carbon::parse($request->publish_date),
+        ];
+
+        // Update tags
+        $post->tags()->detach();
+        if ($request->tags) {
+            $post->tags()->attach($request->tags);
+        }
+
+        if ($post->update($updateData)) {
+            return redirect($request->lastState)->with('message', 'Post telah diupdate');
+        }
+
+        return redirect()->back()->with('error', 'Gagal mengupdate post');
+    }
+
+    /**
+     * Remove the specified post from storage
+     *
+     * @param int $id
+     * @return RedirectResponse
+     */
+    public function destroy(int $id): RedirectResponse
+    {
+        $post = $this->postModel->findOrFail($id);
+        $post->tags()->detach();
+
+        if ($post->delete()) {
             return redirect()->back()->with('message', 'Post telah dihapus');
         }
+
+        return redirect()->back()->with('error', 'Gagal menghapus post');
     }
 
-    public function getTags($id)
+    /**
+     * Get tags for a post
+     *
+     * @param int $id
+     * @return array
+     */
+    public function getTags(int $id): array
     {
-        $modul = Post::find($id);
-        $getAllTag = $modul->tags->pluck('name','id')->all();
-        return $getAllTag;
+        $post = $this->postModel->findOrFail($id);
+        return $post->tags->pluck('name', 'id')->all();
     }
 
-    public function addTags(Request $request)
+    /**
+     * Add a new tag
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function addTags(Request $request): array
     {
-        $dataReturn = array();
-        $modul = Tag::where("name",$request->dataTag)->get()->first();
-        if (!empty($modul)) {
-            $dataReturn['status'] = 1;
-            $dataReturn['message'] = "Tag telah ditambahkan";
-            $dataReturn['tagId'] = $modul->id;
-        } else {
-            $tag = new Tag;
-            $tag->name = $request->dataTag;
-            $tag->slug = Str::slug($request->dataTag);
-            if($tag->save()){
-                $dataReturn['status'] = 1;
-                $dataReturn['message'] = "Tag telah ditambahkan";
-                $dataReturn['tagId'] = $tag->id;
-            } else {
-                $dataReturn['status'] = 1;
-                $dataReturn['message'] = "Tag gagal ditambahkan";
-                $dataReturn['tagId'] = null;
-            }
+        $response = [
+            'status' => 0,
+            'message' => 'Tag gagal ditambahkan',
+            'tagId' => null
+        ];
+
+        $existingTag = Tag::where('name', $request->dataTag)->first();
+
+        if ($existingTag) {
+            $response['status'] = 1;
+            $response['message'] = 'Tag telah ditambahkan';
+            $response['tagId'] = $existingTag->id;
+            return $response;
         }
-        return $dataReturn;
-    }
 
-    public function quickDraft(Request $request)
-    {
+        // Create tag with mass assignment
+        $tag = Tag::create([
+            'name' => $request->dataTag,
+            'slug' => Str::slug($request->dataTag)
+        ]);
 
-        $modul = new Post;
-        $modul->title = $request->title;
-        $createSlug = Str::slug($request->title);
-        $modul->slug = $this->checkSlug($createSlug);
-        $modul->content = $request->content;
-        $modul->author = Auth::user()->id;
-        $modul->category_id = ($request->kategori != null)?$request->kategori:1;
-        $modul->publish_date = (!empty($request->publish_date))? Carbon::parse($request->publish_date):Carbon::now();
-        $modul->status = 0;
-        $dataReturn = array();
-        if ($modul->save()) {
-            $dataReturn['status'] = 1;
-            $dataReturn['message'] = 'Post telah disimpan';
-            return $dataReturn;
+        if ($tag) {
+            $response['status'] = 1;
+            $response['message'] = 'Tag telah ditambahkan';
+            $response['tagId'] = $tag->id;
         }
+
+        return $response;
     }
 
+    /**
+     * Create a quick draft post
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function quickDraft(Request $request): array
+    {
+        // Generate a basic slug
+        $baseSlug = Str::slug($request->title);
+
+        // Check if the slug exists
+        $slugCount = Post::where('slug', 'like', $baseSlug . '%')->count();
+        $uniqueSlug = $slugCount > 0 ? $baseSlug . '-' . ($slugCount + 1) : $baseSlug;
+
+        // Create post with mass assignment
+        $post = Post::create([
+            'title' => $request->title,
+            'slug' => $uniqueSlug,
+            'content' => $request->content,
+            'author' => Auth::id(),
+            'category_id' => $request->kategori ?? 1,
+            'publish_date' => $request->publish_date ? Carbon::parse($request->publish_date) : Carbon::now(),
+            'status' => 0,
+        ]);
+
+        $response = [
+            'status' => 0,
+            'message' => 'Gagal menyimpan post'
+        ];
+
+        if ($post) {
+            $response['status'] = 1;
+            $response['message'] = 'Post telah disimpan';
+        }
+
+        return $response;
+    }
 }
