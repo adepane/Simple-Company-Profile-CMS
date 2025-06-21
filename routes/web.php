@@ -10,7 +10,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MenuController;
-use App\Http\Controllers\PdfController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\PesanController;
 use App\Http\Controllers\PostController;
@@ -73,9 +73,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::match(['post', 'patch'], 'media/ajaxstore', [MediaController::class, 'ajaxStore'])->name('media.ajaxstore');
     Route::resource('media', MediaController::class);
 
-    Route::get('pdf/modal', [PdfController::class, 'modalshow'])->name('pdf.modal');
-    Route::post('pdf/ajaxstore', [PdfController::class, 'ajaxStore'])->name('pdf.ajaxstore');
-    Route::resource('pdf', PdfController::class);
+    Route::get('document/modal', [DocumentController::class, 'modalshow'])->name('document.modal');
+    Route::post('document/ajaxstore', [DocumentController::class, 'ajaxStore'])->name('document.ajaxstore');
+    Route::resource('document', DocumentController::class);
 
     Route::resource('menu', LayoutController::class);
 

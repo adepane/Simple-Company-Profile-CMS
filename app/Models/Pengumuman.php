@@ -12,7 +12,7 @@ class Pengumuman extends Model
         'slug',
         'content',
         'id_media',
-        'id_pdf',
+        'document_id',
         'status',
     ];
 
@@ -21,8 +21,8 @@ class Pengumuman extends Model
         return $this->belongsTo(Media::class, 'id_media', 'id');
     }
 
-    public function pdfmedia()
+    public function document()
     {
-        return $this->belongsTo(Pdf::class, 'id_pdf', 'id');
+        return $this->belongsTo(Document::class, 'document_id', 'id');
     }
 }

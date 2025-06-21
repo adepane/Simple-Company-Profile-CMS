@@ -1,5 +1,5 @@
 @extends('panel.layouts.apps')
-@include('panel.pdf.submenu')
+@include('panel.document.submenu')
 @section('content')
 
 @if ($errors->any())
@@ -11,14 +11,14 @@
     @endforeach
 </div>
 @endif
-<form class="kt-form kt-form--label-right" id="f_pdf" action="{{ route('pdf.store') }}" method="POST"
+<form class="kt-form kt-form--label-right" id="f_document" action="{{ route('document.store') }}" method="POST"
     enctype="multipart/form-data">
     {{csrf_field()}}
     <div class="kt-portlet kt-portlet--mobile">
         <div class="kt-portlet__head">
             <div class="kt-portlet__head-label">
                 <h3 class="kt-portlet__head-title">
-                    Media PDF
+                    Media Document
                 </h3>
             </div>
         </div>

@@ -32,8 +32,8 @@
                 @foreach ($data as $item)
                 <tr>
                     <td>{{ $item->title }}</td>
-                    <td><a href="{{ CMS::getPdf($item->id_pdf) }}" target="_blank">{{$item->pdfmedia->name}}</a> </td>
-                    
+                    <td><a href="{{ CMS::getPdf($item->document_id) }}" target="_blank">{{$item->document->name}}</a> </td>
+
                     <td>{{ ($item->status ==1)?"Published":"Draft" }}</td>
                     <td>{{ $item->view }}</td>
                     <td width="20%" style="text-align:center">
@@ -48,7 +48,7 @@
                     </td>
                 </tr>
                 @endforeach
-                
+
             </tbody>
         </table>
         <div class="kt-pagination  kt-pagination--brand">

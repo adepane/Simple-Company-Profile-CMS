@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Pdf extends Model
+class Document extends Model
 {
     protected $fillable = [
         'id',
         'path',
+        'name',
     ];
 }

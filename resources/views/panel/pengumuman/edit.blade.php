@@ -115,9 +115,9 @@
             </div>
             <div class="kt-portlet__body">
                 <div class="form-group">
-                    @if (!empty($data->id_pdf))
-                    <div style="padding-bottom:20px">Dokumen: <a class="" href="{{ CMS::getPdf($data->id_pdf) }}"
-                            target="_blank">{{$data->pdfmedia->name}}</a></div>
+                    @if (!empty($data->document_id))
+                    <div style="padding-bottom:20px">Dokumen: <a class="" href="{{ CMS::getPdf($data->document_id) }}"
+                            target="_blank">{{$data->document->name}}</a></div>
                     @endif
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" id="filepdf" name="filepdf">

@@ -62,7 +62,7 @@
                                         {!!$medias['media']!!} Items Media
                                     </span>
                                     <span class="kt-widget17__desc">
-                                        {!!$medias['photo']!!} Photos & {!!$medias['pdf']!!} PDFs
+                                        {!!$medias['photo']!!} Photos & {!!$medias['document']!!} Documents
                                     </span>
 
                                 </div>

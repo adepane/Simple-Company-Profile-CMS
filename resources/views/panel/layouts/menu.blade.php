@@ -75,8 +75,8 @@
                     href="{{ route('media.index') }}" class="kt-menu__link "><i
                         class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                         class="kt-menu__link-text">Photo / Gambar</span></a></li>
-            <li class="kt-menu__item {{ CMS::setActive('pdf') }}" aria-haspopup="true"><a
-                    href="{{ route('pdf.index') }}" class="kt-menu__link "><i
+            <li class="kt-menu__item {{ CMS::setActive('document') }}" aria-haspopup="true"><a
+                    href="{{ route('document.index') }}" class="kt-menu__link "><i
                         class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                         class="kt-menu__link-text">PDF</span></a></li>
         </ul>

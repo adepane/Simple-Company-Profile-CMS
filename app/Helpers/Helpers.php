@@ -9,7 +9,7 @@ use App\Models\Category;
 use App\Models\Layout;
 use App\Models\Media;
 use App\Models\Menu;
-use App\Models\Pdf;
+use App\Models\Document;
 use App\Models\Pengumuman;
 use App\Models\Pesan;
 use App\Models\Post;
@@ -145,7 +145,7 @@ class Helpers
 
     public static function getPdf($path)
     {
-        $getMedia = Pdf::find($path);
+        $getMedia = Document::find($path);
         if (! empty($getMedia)) {
             return asset('/files/'.$getMedia->path);
         }

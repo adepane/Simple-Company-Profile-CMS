@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pdf;
+use App\Models\Document;
 use App\Models\Pengumuman;
 use Illuminate\Http\Request;
 use Str;
@@ -48,15 +48,15 @@ class PengumumanController extends Controller
         $modul = new Pengumuman;
         $media = $request->file('filepdf');
         if ($media != '') {
-            $newPdf = new Pdf;
+            $newDocument = new Document;
             $ext = $media->guessClientExtension();
             $newdate = date('YmdHis');
             $origName = preg_replace('/\\.[^.\\s]{3,4}$/', '', $media->getClientOriginalName());
             $path = $media->storeAs('pdf', Str::slug($origName.'_'.$newdate).'.'.$ext, 'uploadfile');
-            $newPdf->path = $path;
-            $newPdf->name = $origName;
-            $newPdf->save();
-            $modul->id_pdf = $newPdf->id;
+            $newDocument->path = $path;
+            $newDocument->name = $origName;
+            $newDocument->save();
+            $modul->document_id = $newDocument->id;
         }
         $modul->title = Str::title($request->title);
         $modul->slug = Str::slug($request->title);
@@ -107,16 +107,16 @@ class PengumumanController extends Controller
         $modul = Pengumuman::find($id);
         $media = $request->file('filepdf');
         if ($media != '') {
-            $newPdf = new Pdf;
+            $newDocument = new Document;
             $ext = $media->guessClientExtension();
             $mimeType = $media->getClientMimeType();
             $newdate = date('YmdHis');
             $origName = preg_replace('/\\.[^.\\s]{3,4}$/', '', $media->getClientOriginalName());
             $path = $media->storeAs('pdf', Str::slug($origName.'_'.$newdate).'.'.$ext, 'uploadfile');
-            $newPdf->path = $path;
-            $newPdf->name = $origName;
-            $newPdf->save();
-            $modul->id_pdf = $newPdf->id;
+            $newDocument->path = $path;
+            $newDocument->name = $origName;
+            $newDocument->save();
+            $modul->document_id = $newDocument->id;
         }
         $modul->title = Str::title($request->title);
         $modul->slug = Str::slug($request->title);
@@ -136,7 +136,7 @@ class PengumumanController extends Controller
      */
     public function destroy($id)
     {
-        $modul = Pdf::find($id);
+        $modul = Document::find($id);
         if ($modul->delete()) {
             return redirect()->back()->with('message', 'Pengumuman telah dihapus');
         }

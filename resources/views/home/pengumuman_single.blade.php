@@ -53,13 +53,13 @@
                                 </div>
                             </div>
                             {!!$data->content!!}
-                            @if (!empty($data->id_pdf))
+                            @if (!empty($data->document_id))
                             <div class="tagline p-0 pt-20 mt-5">
                                 <div class="row">
                                     <div class="col-md-8">
                                         <div class="tags">
                                             <p class="mb-10">Dokumen: </p>
-                                            <a href="{{CMS::getPdf($data->id_pdf)}}"
+                                            <a href="{{CMS::getPdf($data->document_id)}}"
                                                 class="btn btn-primary">DOWNLOAD</a>
                                         </div>
                                     </div>

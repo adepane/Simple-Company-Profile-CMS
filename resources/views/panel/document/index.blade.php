@@ -1,5 +1,5 @@
 @extends('panel.layouts.apps')
-@include('panel.pdf.submenu')
+@include('panel.document.submenu')
 @section('content')
 @if(session()->has('message'))
 <div class="alert alert-success">
@@ -13,7 +13,7 @@
                 <i class="kt-font-brand flaticon2-file"></i>
             </span>
             <h3 class="kt-portlet__head-title">
-                List PDF
+                List Documents
             </h3>
         </div>
     </div>
@@ -32,11 +32,11 @@
                     <td>{{ $item->name }}</td>
                     <td>{{ url('filles/'.$item->path) }}</td>
                     <td width="20%" style="text-align:center">
-                        <a class="btn btn-primary btn-icon" href="{{ route('pdf.edit',$item->id) }}"><i
+                        <a class="btn btn-primary btn-icon" href="{{ route('document.edit',$item->id) }}"><i
                                 class="fas fa-pencil-alt"></i></a>
-                        <button type="button" class="btn btn-danger destroy deletepdf btn-icon"
-                            id-pdf="{{ $item->id }}"><i class="fas fa-trash"></i></button>
-                        <form action="{{ route('pdf.destroy',$item->id) }}" style="display:none"
+                        <button type="button" class="btn btn-danger destroy deletedocument btn-icon"
+                            id-document="{{ $item->id }}"><i class="fas fa-trash"></i></button>
+                        <form action="{{ route('document.destroy',$item->id) }}" style="display:none"
                             id="destroy_{{ $item->id }}" method="POST">
                             @method('delete')
                             @csrf
@@ -63,26 +63,26 @@
 @endsection
 @push('script')
 <script>
-    $(document).on('click', '.deletepdf', function(e) {
+    $(document).on('click', '.deletedocument', function(e) {
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
         var $modal = $('#modal-normal');
-        var valuepdf = $(this).attr('id-pdf');
-        $modal.find(".modal-title").html("Hapus Slide");
-        $modal.find(".modal-body").html("Apakah Anda Yakin Ingin menghapus pdf ini?");
+        var valuedocument = $(this).attr('id-document');
+        $modal.find(".modal-title").html("Hapus Document");
+        $modal.find(".modal-body").html("Apakah Anda Yakin Ingin menghapus document ini?");
         $modal.find(".modal-footer").html(
-            '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary yeshapupdf" valueid="' +
-            valuepdf + '">OK</button>');
+            '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary yeshapudocument" valueid="' +
+            valuedocument + '">OK</button>');
         $modal.modal('show');
     });
-    $(document).on('click', '.yeshapupdf', function(e) {
+    $(document).on('click', '.yeshapudocument', function(e) {
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
         var $modal = $('#modal-normal');
-        var id_pdf = $(this).attr('valueid');
-        $('#destroy_' + id_pdf).trigger('submit');
+        var id_document = $(this).attr('valueid');
+        $('#destroy_' + id_document).trigger('submit');
         $modal.modal('hide');
     });
 </script>

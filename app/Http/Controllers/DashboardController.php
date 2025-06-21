@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Agenda;
 use App\Models\Media;
-use App\Models\Pdf;
+use App\Models\Document;
 use App\Models\Pengumuman;
 use App\Models\Pesan;
 use App\Models\Post;
@@ -24,9 +24,9 @@ class DashboardController extends Controller
     public function getMedia()
     {
         $getPhoto = Media::count();
-        $getPdf = Pdf::count();
-        $total = $getPhoto + $getPdf;
-        $mediaTotal = Arr::add(['photo' => $getPhoto, 'pdf' => $getPdf], 'media', $total);
+        $getDocument = Document::count();
+        $total = $getPhoto + $getDocument;
+        $mediaTotal = Arr::add(['photo' => $getPhoto, 'document' => $getDocument], 'media', $total);
 
         return $mediaTotal;
     }
