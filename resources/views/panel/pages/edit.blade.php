@@ -1,5 +1,5 @@
 @extends('panel.layouts.apps')
-@include('panel.halaman.submenu')
+@include('panel.pages.submenu')
 @section('content')
 <link rel="stylesheet" href={!! asset("jsUpload/css/jquery.fileupload.css") !!}>
 @if ($errors->any())
@@ -11,7 +11,7 @@
     @endforeach
 </div>
 @endif
-<form class="kt-form kt-form--label-right row" id="f_halaman" action="{{ route('halaman.update',$data->id) }}"
+<form class="kt-form kt-form--label-right row" id="f_pages" action="{{ route('pages.update',$data->id) }}"
     method="POST" enctype="multipart/form-data">
     @method("patch")
     {{csrf_field()}}
@@ -23,15 +23,15 @@
                     <div class="alert alert-secondary" role="alert">
                         <div class="alert-icon"><i class="flaticon-edit kt-font-brand"></i></div>
                         <div class="alert-text">
-                            Edit halaman
+                            Edit page
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <div class="col-12">
-                        <input class="form-control" type="text" value="{{ $data->judul }}" id="judul" name="title"
-                            placeholder="isi Judul">
+                        <input class="form-control" type="text" value="{{ $data->title }}" id="judul" name="title"
+                            placeholder="Title">
                     </div>
                 </div>
 
@@ -67,14 +67,14 @@
             </div>
             <div class="kt-portlet__body">
                 <div class="form-group row">
-                    <input type="hidden" id="imageIdnews" value="{!!$data->id_media!!}" name="id_media">
+                    <input type="hidden" id="imageIdnews" value="{!!$data->media_id!!}" name="id_media">
                     <div class="col-12">
                         <div class="preview-pic">
-                            @if (!empty($data->id_media))
+                            @if (!empty($data->media_id))
                                 @if (!empty($data->media->path))
                                     <img src="{{ asset("files/".$data->media->path_220) }}" alt="" width="100%">
                                 @else
-                                    Photo Telah Dihapus
+                                    Photo Has Been Deleted
                                 @endif
                             @endif
                         </div>
@@ -82,27 +82,27 @@
                     </div>
                     <div class="col-6 text-center">
                         <span class="btn btn-success fileinput-button col-12">
-                            <span class="uploadnew {!! (!empty($data->id_media))?" d-none":"" !!}">Upload</span>
-                            <span class="changeupload {!! (!empty($data->id_media))?"":" d-none" !!}">Ganti</span>
+                            <span class="uploadnew {!! (!empty($data->media_id))?" d-none":"" !!}">Upload</span>
+                            <span class="changeupload {!! (!empty($data->media_id))?"":" d-none" !!}">Change</span>
                             <input id="fileupload" type="file" name="files">
                         </span>
                     </div>
                     <div class="col-6 text-center">
                         <a href="#"
-                            class="btn btn-primary fileinput-button pilihgambar col-12 {!! (!empty($data->id_media))?"
+                            class="btn btn-primary fileinput-button pilihgambar col-12 {!! (!empty($data->media_id))?"
                             d-none":"" !!}">
-                            Pilih
+                            Select
                         </a>
                         <a href="#"
-                            class="btn btn-danger fileinput-button hapusgambar {!! (!empty($data->id_media))?"":"
+                            class="btn btn-danger fileinput-button hapusgambar {!! (!empty($data->media_id))?"":"
                             d-none" !!} col-12">
-                            Hapus
+                            Delete
                         </a>
                     </div>
                 </div>
                 <div class="form-group">
                     <textarea class="form-control" name="ket_gambar" id="ket_gambar" cols="30" rows="3"
-                        placeholder="Keterangan Gambar">{{$data->ket_photo}}</textarea>
+                        placeholder="Image Caption">{{$data->img_description}}</textarea>
                 </div>
             </div>
         </div>
@@ -130,7 +130,7 @@
 <script src="{!! asset("/js/jquery.fileupload.js") !!}"></script>
 <script>
     $(document).ready(function() {
-        $("#f_halaman").validate({
+        $("#f_pages").validate({
             rules: {
                 title: {
                     required: !0
@@ -167,7 +167,7 @@
                     $('.changeupload').removeClass('d-none');
                     $('.preview-pic').html('<img width="100%" src="{!! url("files") !!}/' + dataRes
                         .path + '" />');
-                    $('fileinput-button').html('Ganti Gambar');
+                    $('fileinput-button').html('Change Image');
                     $('#imageIdnews').val(dataRes.imageId);
                     $('.pilihgambar').addClass('d-none');
                     $('.hapusgambar').removeClass('d-none');
@@ -183,7 +183,7 @@
         e.stopPropagation();
         e.stopImmediatePropagation();
         var $modal = $('#modal-full');
-        $modal.find(".modal-title").html("Pilih Gambar");
+        $modal.find(".modal-title").html("Select Image");
         $modal.find(".modal-body").html("");
         $.ajax({
             url: "{{ route('media.modal') }}",

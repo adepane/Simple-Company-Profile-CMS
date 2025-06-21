@@ -1,5 +1,5 @@
 @extends('panel.layouts.apps')
-@include('panel.halaman.submenu')
+@include('panel.pages.submenu')
 @section('content')
 
 <link rel="stylesheet" href={!! asset("jsUpload/css/jquery.fileupload.css") !!}>
@@ -13,7 +13,7 @@
     @endforeach
 </div>
 @endif
-<form class="kt-form kt-form--label-right row" id="f_halaman" action="{{ route('halaman.store') }}" method="POST" enctype="multipart/form-data">
+<form class="kt-form kt-form--label-right row" id="f_pages" action="{{ route('pages.store') }}" method="POST" enctype="multipart/form-data">
     {{csrf_field()}}
     <div class="col-8">
         <div class="kt-portlet kt-portlet--mobile">
@@ -22,14 +22,14 @@
                     <div class="alert alert-secondary" role="alert">
                         <div class="alert-icon"><i class="flaticon-add kt-font-brand"></i></div>
                         <div class="alert-text">
-                            Tambah Halaman
+                            Add Page
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <div class="col-12">
-                        <input class="form-control" type="text" value="" id="judul" name="title" placeholder="isi Judul">
+                        <input class="form-control" type="text" value="" id="judul" name="title" placeholder="Title">
                     </div>
                 </div>
 
@@ -38,8 +38,8 @@
                         <textarea class="form-control" name="content" id="content"></textarea>
                     </div>
                 </div>
-                
-                
+
+
             </div>
 
             <div class="kt-portlet__foot">
@@ -75,21 +75,21 @@
                     <div class="col-6 text-center">
                         <span class="btn btn-success fileinput-button col-12">
                             <span class="uploadnew ">Upload</span>
-                            <span class="changeupload d-none">Ganti</span>
+                            <span class="changeupload d-none">Change</span>
                             <input id="fileupload" type="file" name="files">
                         </span>
                     </div>
                     <div class="col-6 text-center">
                         <a href="#" class="btn btn-primary fileinput-button pilihgambar col-12">
-                            Pilih
+                            Select
                         </a>
                         <a href="#" class="btn btn-danger fileinput-button hapusgambar d-none col-12">
-                            Hapus
+                            Delete
                         </a>
                     </div>
                 </div>
                 <div class="form-group">
-                    <textarea class="form-control" name="ket_gambar" id="ket_gambar" cols="30" rows="3" placeholder="Keterangan Gambar"></textarea>
+                    <textarea class="form-control" name="ket_gambar" id="ket_gambar" cols="30" rows="3" placeholder="Image Caption"></textarea>
                 </div>
             </div>
         </div>
@@ -108,7 +108,7 @@
                 </select>
             </div>
         </div>
-    <div>
+    </div>
 </form>
 @endsection
 @push('script')
@@ -116,7 +116,7 @@
 <script src="{!! asset("/js/jquery.fileupload.js") !!}"></script>
 <script>
     $(document).ready(function(){
-        $("#f_halaman").validate( {
+        $("#f_pages").validate( {
             rules: {
                 title: {
                     required: !0
@@ -151,7 +151,7 @@
                     $('.uploadnew').addClass('d-none');
                     $('.changeupload').removeClass('d-none');
                     $('.preview-pic').html('<img width="100%" src="{!! url("files") !!}/'+dataRes.path+'" />');
-                    $('fileinput-button').html('Ganti Gambar');
+                    $('fileinput-button').html('Change Image');
                     $('#imageIdnews').val(dataRes.imageId);
                     $('.pilihgambar').addClass('d-none');
                     $('.hapusgambar').removeClass('d-none');
@@ -168,7 +168,7 @@
         e.stopPropagation();
         e.stopImmediatePropagation();
         var $modal = $('#modal-full');
-        $modal.find(".modal-title").html("Pilih Gambar");
+        $modal.find(".modal-title").html("Select Image");
         $modal.find(".modal-body").html("");
         $.ajax({
             url:"{{ route('media.modal') }}",

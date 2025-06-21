@@ -3,7 +3,7 @@
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GalleryController;
-use App\Http\Controllers\HalamanController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IklanController;
 use App\Http\Controllers\CategoryController;
@@ -66,7 +66,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::resource('post', PostController::class);
     Route::resource('kategori', CategoryController::class);
     Route::resource('tag', TagController::class);
-    Route::resource('halaman', HalamanController::class);
+    Route::resource('pages', PageController::class);
 
     Route::get('media/modal', [MediaController::class, 'modalshow'])->name('media.modal');
     Route::get('media/modal-gallery', [MediaController::class, 'modalShowGallery'])->name('media.modal_gallery');

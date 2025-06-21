@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index()
     {
         $getModul = User::paginate(10)->onEachSide(2);

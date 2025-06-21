@@ -1,23 +1,23 @@
 @extends('home._app')
 @push('header')
-<title>{!! $data->judul !!} - {!! CMS::getSetting('tagline') !!}</title>
+<title>{!! $data->title !!} - {!! CMS::getSetting('tagline') !!}</title>
 <meta name="description" content="{!! CMS::excerpt($data->content,20) !!}" />
 <?php
-    $keyw = explode(" ",strtolower($data->judul));
+    $keyw = explode(" ",strtolower($data->title));
 ?>
 <meta name="keywords" content="{!! implode(" , ",$keyw) !!}" />
 <meta name="robots" content="index,follow" />
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="PMI Musi Banyuasin" />
-<meta property="og:title" content="{!!$data->judul!!}" />
+<meta property="og:title" content="{!!$data->title!!}" />
 <meta property="og:description" content="{!! CMS::excerpt($data->content,20) !!}" />
 <meta property="og:url" content="{!! route('home.showPage',$data->slug)!!}" />
-<meta property="og:image" content="{!!CMS::getImage($data->id_media)!!}" />
+<meta property="og:image" content="{!!CMS::getImage($data->media_id)!!}" />
 <meta property="og:image:type" content="image/jpeg" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="{!!$data->judul!!}" />
+<meta name="twitter:title" content="{!!$data->title!!}" />
 <meta name="twitter:description" content="{!! CMS::excerpt($data->content,20) !!}" />
-<meta name="twitter:image:src" content="{!!CMS::getImage($data->id_media)!!}" />
+<meta name="twitter:image:src" content="{!!CMS::getImage($data->media_id)!!}" />
 @endpush
 @section('content')
 <section class="inner-header divider parallax layer-overlay layer-pattern">
@@ -25,7 +25,7 @@
         <div class="section-content pt-10">
             <div class="row">
                 <div class="col-md-12">
-                    <h3 class="title text-white">{{$data->judul}}</h3>
+                    <h3 class="title text-white">{{$data->title}}</h3>
                 </div>
             </div>
         </div>
@@ -38,9 +38,9 @@
                 <div class="blog-posts single-post">
                     <article class="post clearfix mb-0">
                         <div class="entry-header mb-20">
-                            <div class="post-thumb thumb mb-10"> <img src="{!!CMS::getImage($data->id_media)!!}" alt=""
+                            <div class="post-thumb thumb mb-10"> <img src="{!!CMS::getImage($data->media_id)!!}" alt=""
                                     class="img-responsive img-fullwidth"> </div>
-                            <span class="pl-10"><em>{!!$data->ket_photo!!}</em></span>
+                            <span class="pl-10"><em>{!!$data->img_description!!}</em></span>
                         </div>
                         <div class="entry-content">
                             {!!$data->content!!}

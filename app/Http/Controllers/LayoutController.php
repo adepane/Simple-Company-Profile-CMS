@@ -9,11 +9,6 @@ use Str;
 
 class LayoutController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index()
     {
         $getModul = Layout::paginate(10);

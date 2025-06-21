@@ -9,11 +9,6 @@ use Str;
 
 class PengumumanController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index()
     {
         $getModul = Pengumuman::paginate(10)->onEachSide(2);

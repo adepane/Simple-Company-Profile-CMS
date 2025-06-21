@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Agenda;
 use App\Models\Gallery;
-use App\Models\Halaman;
+use App\Models\Page;
 use App\Models\Category;
 use App\Models\Pengumuman;
 use App\Models\Pesan;
@@ -22,11 +22,11 @@ class HomeController extends Controller
 
     public function showPage(Request $request, $slug)
     {
-        $getHalaman = Halaman::where('slug', $slug)->get()->first();
-        if ($getHalaman == null) {
+        $getPage = Page::where('slug', $slug)->get()->first();
+        if ($getPage == null) {
             abort(404);
         } else {
-            return view('home.halaman', ['data' => $getHalaman]);
+            return view('home.page', ['data' => $getPage]);
         }
     }
 

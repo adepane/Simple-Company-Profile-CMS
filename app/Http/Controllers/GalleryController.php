@@ -7,11 +7,6 @@ use Illuminate\Http\Request;
 
 class GalleryController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index()
     {
         $getModul = Gallery::orderBy('id', 'desc')->paginate(10)->onEachSide(2);
