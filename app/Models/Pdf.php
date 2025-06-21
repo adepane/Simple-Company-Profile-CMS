@@ -10,6 +10,4 @@ class Pdf extends Model
         'id',
         'path',
     ];
-
-    
 }

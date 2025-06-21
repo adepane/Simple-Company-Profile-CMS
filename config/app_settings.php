@@ -51,7 +51,7 @@ return [
                     'disk' => 'settingfile', // which disk you want to upload
                     'path' => 'files', // path on the disk,
                     'preview_class' => 'thumbnail',
-                    'preview_style' => 'height:40px'
+                    'preview_style' => 'height:40px',
                 ],
                 [
                     'name' => 'logo_footer',
@@ -62,7 +62,7 @@ return [
                     'disk' => 'settingfile', // which disk you want to upload
                     'path' => 'files', // path on the disk,
                     'preview_class' => 'thumbnail',
-                    'preview_style' => 'height:40px'
+                    'preview_style' => 'height:40px',
                 ],
                 [
                     'name' => 'favicon',
@@ -73,7 +73,7 @@ return [
                     'disk' => 'settingfile', // which disk you want to upload
                     'path' => 'files', // path on the disk,
                     'preview_class' => 'thumbnail',
-                    'preview_style' => 'height:30px'
+                    'preview_style' => 'height:30px',
                 ],
                 [
                     'name' => 'address', // unique key for setting
@@ -146,7 +146,7 @@ return [
                     // optional properties
                     'placeholder' => 'Masukkan Script Google Analytics', // placeholder for input
                 ],
-            ]
+            ],
         ],
         'front' => [
             'title' => 'Front Index Settings',
@@ -178,8 +178,8 @@ return [
                     'placeholder' => 'Masukkan total index Agenda', // placeholder for input
                     'rules' => 'max:50', // validation rules for this input
                 ],
-                
-            ]
+
+            ],
         ],
         'blogpost' => [
             'title' => 'Blog Index Settings',
@@ -196,11 +196,11 @@ return [
                     'disk' => 'settingfile', // which disk you want to upload
                     'path' => 'files', // path on the disk,
                     'preview_class' => 'thumbnail',
-                    'preview_style' => 'height:40px'
+                    'preview_style' => 'height:40px',
                 ],
-                
-            ]
-        ]
+
+            ],
+        ],
     ],
 
     // Setting page url, will be used for get and post request

@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Berita;
 use App\Models\Tag;
-use App\Models\Terms;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
 use Str;
 
 class BeritaController extends Controller
@@ -16,31 +15,32 @@ class BeritaController extends Controller
     {
         $this->middleware('auth');
     }
-    
-    protected function checkSlug($slug,$id=0,$oldSlug=null)
+
+    protected function checkSlug($slug, $id = 0, $oldSlug = null)
     {
-        $checkSlug =  Berita::select('slug')->where('slug','like',$slug.'%')
+        $checkSlug = Berita::select('slug')->where('slug', 'like', $slug.'%')
             ->where('id', '<>', $id)
             ->count();
 
-        if (!empty($checkSlug)) {
+        if (! empty($checkSlug)) {
             if ($id != 0) {
-                if (Str::contains($oldSlug,$slug)) {
+                if (Str::contains($oldSlug, $slug)) {
                     $realSlug = Berita::find($id);
                     if ($realSlug->slug != $oldSlug) {
-                        $newSlug = $slug.'-'.($checkSlug+1);
+                        $newSlug = $slug.'-'.($checkSlug + 1);
                     } else {
                         $newSlug = $oldSlug;
                     }
                 } else {
-                    $newSlug = $slug.'-'.($checkSlug+1);
+                    $newSlug = $slug.'-'.($checkSlug + 1);
                 }
             } else {
-                $newSlug = $slug.'-'.($checkSlug+1);
+                $newSlug = $slug.'-'.($checkSlug + 1);
             }
         } else {
             $newSlug = $slug;
         }
+
         return $newSlug;
     }
 
@@ -57,13 +57,13 @@ class BeritaController extends Controller
             'created_at',
             'updated_at',
         ])
-        ->with('kategories')
-        ->with('authors')
-        ->with('tags')
-        ->orderBy('publish_date','desc')
-        ->paginate(10)->onEachSide(2);
+            ->with('kategories')
+            ->with('authors')
+            ->with('tags')
+            ->orderBy('publish_date', 'desc')
+            ->paginate(10)->onEachSide(2);
 
-        return view('panel.berita.index',['data'=>$getModul]);
+        return view('panel.berita.index', ['data' => $getModul]);
     }
 
     public function create()
@@ -77,8 +77,8 @@ class BeritaController extends Controller
         $this->validate(
             $request,
             [
-                'yt_video'          => 'nullable|regex:' . $regex,
-                'file_gambar'          => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+                'yt_video' => 'nullable|regex:'.$regex,
+                'file_gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
             ],
             [
                 'file_gambar.image' => 'File gambar tidak valid',
@@ -95,21 +95,23 @@ class BeritaController extends Controller
         $modul->id_media = $request->id_media;
         $modul->ket_photo = $request->ket_gambar;
         $modul->yt_video = $request->yt_video;
-        $modul->publish_date = (!empty($request->publish_date))? Carbon::parse($request->publish_date):Carbon::now();
+        $modul->publish_date = (! empty($request->publish_date)) ? Carbon::parse($request->publish_date) : Carbon::now();
         $modul->status = $request->status;
         if ($modul->save()) {
             if ($request->tags != null) {
                 $modul->tags()->attach($request->tags);
             }
+
             return redirect()->route('berita.index')->with('message', 'Berita telah ditambah');
-        } 
+        }
     }
 
     public function edit($id)
     {
         $modul = Berita::find($id);
         $getTags = $this->getTags($id);
-        return view('panel.berita.edit',['data'=>$modul,'tags'=>$getTags]);
+
+        return view('panel.berita.edit', ['data' => $modul, 'tags' => $getTags]);
     }
 
     public function update(Request $request, $id)
@@ -118,8 +120,8 @@ class BeritaController extends Controller
         $this->validate(
             $request,
             [
-                'yt_video'          => 'nullable|regex:' . $regex,
-                'file_gambar'          => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+                'yt_video' => 'nullable|regex:'.$regex,
+                'file_gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
             ],
             [
                 'file_gambar.image' => 'File Gambar Tidak Valid',
@@ -130,7 +132,7 @@ class BeritaController extends Controller
         $modul->title = $request->title;
         $createSlug = Str::slug($request->title);
         $oldSlug = $modul->slug;
-        $modul->slug = $this->checkSlug($createSlug,$modul->id,$oldSlug);
+        $modul->slug = $this->checkSlug($createSlug, $modul->id, $oldSlug);
         $modul->content = $request->content;
         $modul->author = Auth::user()->id;
         $modul->id_kategori = (int) $request->kategori;
@@ -145,9 +147,9 @@ class BeritaController extends Controller
             $modul->tags()->attach($request->tags);
         }
         if ($modul->update()) {
-            
+
             return redirect($request->lastState)->with('message', 'Berita telah diupdate');
-        } 
+        }
     }
 
     public function destroy($id)
@@ -162,53 +164,55 @@ class BeritaController extends Controller
     public function getTags($id)
     {
         $modul = Berita::find($id);
-        $getAllTag = $modul->tags->pluck('name','id')->all();
+        $getAllTag = $modul->tags->pluck('name', 'id')->all();
+
         return $getAllTag;
     }
 
     public function addTags(Request $request)
     {
-        $dataReturn = array();
-        $modul = Tag::where("name",$request->dataTag)->get()->first();
-        if (!empty($modul)) {
+        $dataReturn = [];
+        $modul = Tag::where('name', $request->dataTag)->get()->first();
+        if (! empty($modul)) {
             $dataReturn['status'] = 1;
-            $dataReturn['message'] = "Tag telah ditambahkan";
+            $dataReturn['message'] = 'Tag telah ditambahkan';
             $dataReturn['tagId'] = $modul->id;
         } else {
             $tag = new Tag;
             $tag->name = $request->dataTag;
             $tag->slug = Str::slug($request->dataTag);
-            if($tag->save()){
+            if ($tag->save()) {
                 $dataReturn['status'] = 1;
-                $dataReturn['message'] = "Tag telah ditambahkan";
+                $dataReturn['message'] = 'Tag telah ditambahkan';
                 $dataReturn['tagId'] = $tag->id;
             } else {
                 $dataReturn['status'] = 1;
-                $dataReturn['message'] = "Tag gagal ditambahkan";
+                $dataReturn['message'] = 'Tag gagal ditambahkan';
                 $dataReturn['tagId'] = null;
             }
         }
+
         return $dataReturn;
     }
 
     public function quickDraft(Request $request)
     {
-        
+
         $modul = new Berita;
         $modul->title = $request->title;
         $createSlug = Str::slug($request->title);
         $modul->slug = $this->checkSlug($createSlug);
         $modul->content = $request->content;
         $modul->author = Auth::user()->id;
-        $modul->id_kategori = ($request->kategori != null)?$request->kategori:1;
-        $modul->publish_date = (!empty($request->publish_date))? Carbon::parse($request->publish_date):Carbon::now();
+        $modul->id_kategori = ($request->kategori != null) ? $request->kategori : 1;
+        $modul->publish_date = (! empty($request->publish_date)) ? Carbon::parse($request->publish_date) : Carbon::now();
         $modul->status = 0;
-        $dataReturn = array();
+        $dataReturn = [];
         if ($modul->save()) {
             $dataReturn['status'] = 1;
             $dataReturn['message'] = 'Berita telah disimpan';
+
             return $dataReturn;
         }
     }
-    
 }

@@ -14,7 +14,8 @@ class Slider extends Model
         'order',
     ];
 
-    public function media(){
-        return $this->belongsTo(Media::class,'id_media','id');
+    public function media()
+    {
+        return $this->belongsTo(Media::class, 'id_media', 'id');
     }
 }

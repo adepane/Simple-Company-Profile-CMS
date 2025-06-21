@@ -8,42 +8,43 @@ use Str;
 
 class HalamanController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth');
     }
- 
-    protected function checkSlug($slug,$id=0,$oldSlug=null)
+
+    protected function checkSlug($slug, $id = 0, $oldSlug = null)
     {
-        $checkSlug =  Halaman::select('slug')->where('slug','like',$slug.'%')
+        $checkSlug = Halaman::select('slug')->where('slug', 'like', $slug.'%')
             ->where('id', '<>', $id)
             ->count();
 
-        if (!empty($checkSlug)) {
+        if (! empty($checkSlug)) {
             if ($id != 0) {
-                if (Str::contains($oldSlug,$slug)) {
+                if (Str::contains($oldSlug, $slug)) {
                     $realSlug = Halaman::find($id);
                     if ($realSlug->slug != $oldSlug) {
-                        $newSlug = $slug.'-'.($checkSlug+1);
+                        $newSlug = $slug.'-'.($checkSlug + 1);
                     } else {
                         $newSlug = $oldSlug;
                     }
                 } else {
-                    $newSlug = $slug.'-'.($checkSlug+1);
+                    $newSlug = $slug.'-'.($checkSlug + 1);
                 }
             } else {
-                $newSlug = $slug.'-'.($checkSlug+1);
+                $newSlug = $slug.'-'.($checkSlug + 1);
             }
         } else {
             $newSlug = $slug;
         }
+
         return $newSlug;
     }
 
     public function index()
     {
         $getModul = Halaman::paginate(10)->onEachSide(2);
+
         return view('panel.halaman.index', ['data' => $getModul]);
     }
 
@@ -58,7 +59,7 @@ class HalamanController extends Controller
         $this->validate(
             $request,
             [
-                'file_gambar'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+                'file_gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
             ],
             [
                 'file_gambar.image' => 'File Gambar Tidak Valid',
@@ -71,10 +72,10 @@ class HalamanController extends Controller
         $modul->content = $request->content;
         $modul->id_media = $request->id_media;
         $modul->ket_photo = $request->ket_gambar;
-        $modul->status = (int)$request->status;
+        $modul->status = (int) $request->status;
         if ($modul->save()) {
             return redirect()->route('halaman.index')->with('message', 'Halaman telah ditambah');
-        } 
+        }
     }
 
     public function show($id)
@@ -85,7 +86,8 @@ class HalamanController extends Controller
     public function edit($id)
     {
         $modul = Halaman::find($id);
-        return view('panel.halaman.edit',['data'=>$modul]);
+
+        return view('panel.halaman.edit', ['data' => $modul]);
     }
 
     public function update(Request $request, $id)
@@ -94,7 +96,7 @@ class HalamanController extends Controller
         $this->validate(
             $request,
             [
-                'file_gambar'          => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+                'file_gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
             ],
             [
                 'file_gambar.image' => 'Gambar tidak valid',
@@ -104,14 +106,14 @@ class HalamanController extends Controller
         $modul->judul = $request->title;
         $createSlug = Str::slug($request->title);
         $oldSlug = $modul->slug;
-        $modul->slug = $this->checkSlug($createSlug,$modul->id,$oldSlug);
+        $modul->slug = $this->checkSlug($createSlug, $modul->id, $oldSlug);
         $modul->content = $request->content;
         $modul->id_media = $request->id_media;
         $modul->ket_photo = $request->ket_gambar;
-        $modul->status = (int)$request->status;
+        $modul->status = (int) $request->status;
         if ($modul->update()) {
             return redirect()->route('halaman.index')->with('message', 'Halaman telah diupdate');
-        } 
+        }
     }
 
     public function destroy($id)
@@ -119,6 +121,6 @@ class HalamanController extends Controller
         $modul = Halaman::find($id);
         if ($modul->delete()) {
             return redirect()->back()->with('message', 'Halaman telah dihapus');
-        } 
+        }
     }
 }

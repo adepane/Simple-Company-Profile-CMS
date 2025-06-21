@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pengumuman;
-use App\Models\Media;
 use App\Models\Pdf;
+use App\Models\Pengumuman;
 use Illuminate\Http\Request;
 use Str;
 
@@ -18,7 +17,8 @@ class PengumumanController extends Controller
     public function index()
     {
         $getModul = Pengumuman::paginate(10)->onEachSide(2);
-        return view('panel.pengumuman.index',['data'=>$getModul]);
+
+        return view('panel.pengumuman.index', ['data' => $getModul]);
     }
 
     /**
@@ -34,7 +34,6 @@ class PengumumanController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -42,8 +41,8 @@ class PengumumanController extends Controller
         $this->validate(
             $request,
             [
-                'file_gambar'          => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
-                'filepdf'          => 'nullable|mimes:pdf',
+                'file_gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+                'filepdf' => 'nullable|mimes:pdf',
             ],
             [
                 'file_gambar.image' => 'File gambar tidak valid',
@@ -53,12 +52,12 @@ class PengumumanController extends Controller
 
         $modul = new Pengumuman;
         $media = $request->file('filepdf');
-        if ($media != "") {
+        if ($media != '') {
             $newPdf = new Pdf;
             $ext = $media->guessClientExtension();
-            $newdate = date("YmdHis");
+            $newdate = date('YmdHis');
             $origName = preg_replace('/\\.[^.\\s]{3,4}$/', '', $media->getClientOriginalName());
-            $path = $media->storeAs("pdf", Str::slug($origName . "_" . $newdate).".".$ext, 'uploadfile');
+            $path = $media->storeAs('pdf', Str::slug($origName.'_'.$newdate).'.'.$ext, 'uploadfile');
             $newPdf->path = $path;
             $newPdf->name = $origName;
             $newPdf->save();
@@ -71,7 +70,7 @@ class PengumumanController extends Controller
         $modul->status = $request->status;
         if ($modul->save()) {
             return redirect()->route('pengumuman.index')->with('message', 'Pengumuman telah ditambah');
-        } 
+        }
     }
 
     /**
@@ -83,42 +82,42 @@ class PengumumanController extends Controller
     public function edit($id)
     {
         $getModul = Pengumuman::find($id);
-        return view('panel.pengumuman.edit',['data'=>$getModul]);
+
+        return view('panel.pengumuman.edit', ['data' => $getModul]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         // dd($request->all());
-        
+
         $this->validate(
             $request,
             [
-                'file_gambar'          => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
-                'filepdf'          => 'nullable|mimes:pdf',
-                'title' => 'required'
+                'file_gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+                'filepdf' => 'nullable|mimes:pdf',
+                'title' => 'required',
             ],
             [
                 'file_gambar.image' => 'File gambar tidak valid',
                 'filepdf.image' => 'File PDF tidak valid',
-                'title.required' => 'title tidak boleh kosong'
+                'title.required' => 'title tidak boleh kosong',
             ]
         );
         $modul = Pengumuman::find($id);
         $media = $request->file('filepdf');
-        if ($media != "") {
+        if ($media != '') {
             $newPdf = new Pdf;
             $ext = $media->guessClientExtension();
             $mimeType = $media->getClientMimeType();
-            $newdate = date("YmdHis");
+            $newdate = date('YmdHis');
             $origName = preg_replace('/\\.[^.\\s]{3,4}$/', '', $media->getClientOriginalName());
-            $path = $media->storeAs("pdf", Str::slug($origName . "_" . $newdate).".".$ext, 'uploadfile');
+            $path = $media->storeAs('pdf', Str::slug($origName.'_'.$newdate).'.'.$ext, 'uploadfile');
             $newPdf->path = $path;
             $newPdf->name = $origName;
             $newPdf->save();
@@ -131,7 +130,7 @@ class PengumumanController extends Controller
         $modul->status = $request->status;
         if ($modul->update()) {
             return redirect()->route('pengumuman.index')->with('message', 'Pengumuman telah diupdate');
-        } 
+        }
     }
 
     /**

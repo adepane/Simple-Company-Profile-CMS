@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pesan;
-use Illuminate\Http\Request;
 
 class PesanController extends Controller
 {
@@ -11,6 +10,7 @@ class PesanController extends Controller
     {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,10 +18,10 @@ class PesanController extends Controller
      */
     public function index()
     {
-        $getModul = Pesan::orderBy('id','desc')->paginate(10)->onEachSide(2);
-        return view('panel.pesan.index',['data'=>$getModul]);
-    }
+        $getModul = Pesan::orderBy('id', 'desc')->paginate(10)->onEachSide(2);
 
+        return view('panel.pesan.index', ['data' => $getModul]);
+    }
 
     /**
      * Display the specified resource.
@@ -36,7 +36,8 @@ class PesanController extends Controller
             $getModul->status = 1;
             $getModul->update();
         }
-        return view('panel.pesan.show',['data'=>$getModul]);
+
+        return view('panel.pesan.show', ['data' => $getModul]);
     }
 
     /**

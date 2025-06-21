@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agenda;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Str;
+
 class AgendaController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,11 +24,9 @@ class AgendaController extends Controller
         return view('panel.agenda.index');
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -44,15 +44,14 @@ class AgendaController extends Controller
         $modul->color = $request->color;
         if ($modul->save()) {
             $getReturn = Agenda::find($modul->id);
-            return response()->json(array('status'=>1, 'message'=>$getReturn));
+
+            return response()->json(['status' => 1, 'message' => $getReturn]);
         }
     }
-
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -63,7 +62,8 @@ class AgendaController extends Controller
         $modul->end = Carbon::parse($request->end);
         if ($modul->update()) {
             $getReturn = Agenda::find($modul->id);
-            return response()->json(array('status' => 1, 'message' => $getReturn));
+
+            return response()->json(['status' => 1, 'message' => $getReturn]);
         }
     }
 
@@ -76,8 +76,8 @@ class AgendaController extends Controller
     public function destroy($id)
     {
         $modul = Agenda::find($id);
-        if($modul->delete()){
-            return response()->json(array('status'=>1, 'message'=>'Agenda telah dihapus'));
+        if ($modul->delete()) {
+            return response()->json(['status' => 1, 'message' => 'Agenda telah dihapus']);
         }
     }
 
@@ -85,9 +85,10 @@ class AgendaController extends Controller
     {
         $start = Carbon::parse($request->start);
         $end = Carbon::parse($request->end);
-        $getModul = Agenda::where('start','>=', $start)
-        ->where('end', '<=', $end)
-        ->get();
+        $getModul = Agenda::where('start', '>=', $start)
+            ->where('end', '<=', $end)
+            ->get();
+
         return json_encode($getModul);
     }
 }

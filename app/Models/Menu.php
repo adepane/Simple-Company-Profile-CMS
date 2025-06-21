@@ -7,11 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Menu extends Model
 {
     protected $fillable = [
-        'title', 
-        'slug', 
-        'order', 
+        'title',
+        'slug',
+        'order',
         'parent_id',
-        'layout_id'
+        'layout_id',
     ];
-
 }

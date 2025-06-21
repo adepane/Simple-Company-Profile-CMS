@@ -1,25 +1,25 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\KategoriController;
-use App\Http\Controllers\TagController;
-use App\Http\Controllers\HalamanController;
-use App\Http\Controllers\MediaController;
-use App\Http\Controllers\PdfController;
-use App\Http\Controllers\LayoutController;
-use App\Http\Controllers\MenuController;
 use App\Http\Controllers\AgendaController;
-use App\Http\Controllers\SliderController;
-use App\Http\Controllers\UsersController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\HalamanController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\IklanController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\LayoutController;
+use App\Http\Controllers\MediaController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\PesanController;
-use App\Http\Controllers\GalleryController;
-use App\Http\Controllers\IklanController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SliderController;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\UsersController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------

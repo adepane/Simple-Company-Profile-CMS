@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Gallery;
+use Illuminate\Database\Eloquent\Model;
 
 class GalleryMedia extends Model
 {
@@ -13,8 +13,9 @@ class GalleryMedia extends Model
         'media_id',
         'photo_desc',
     ];
-    
-    public function galleries(){
+
+    public function galleries()
+    {
         return $this->belongsToMany(Gallery::class);
     }
 }

@@ -20,7 +20,8 @@ class IklanController extends Controller
     public function index()
     {
         $getModul = Iklan::paginate(10)->onEachSide(2);
-        return view('panel.iklan.index',['data'=>$getModul]);
+
+        return view('panel.iklan.index', ['data' => $getModul]);
     }
 
     /**
@@ -36,16 +37,15 @@ class IklanController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         // dd($request->all());
-        switch ((int)$request->position) {
+        switch ((int) $request->position) {
             case 1:
-                $checkIklan = Iklan::where("position",$request->position)->get()->first();
-                if (!empty($checkIklan)) {
+                $checkIklan = Iklan::where('position', $request->position)->get()->first();
+                if (! empty($checkIklan)) {
                     return redirect()->back()->withErrors(['Iklan Homepage hanya boleh 1']);
                 } else {
                     $modul = new Iklan;
@@ -62,8 +62,8 @@ class IklanController extends Controller
                 }
                 break;
             case 2:
-                $checkIklan = Iklan::where("position",$request->position)->get()->first();
-                if (!empty($checkIklan)) {
+                $checkIklan = Iklan::where('position', $request->position)->get()->first();
+                if (! empty($checkIklan)) {
                     return redirect()->back()->withErrors(['Iklan Floating hanya boleh 1']);
                 } else {
                     $modul = new Iklan;
@@ -104,13 +104,13 @@ class IklanController extends Controller
     public function edit($id)
     {
         $getModul = Iklan::find($id);
-        return view('panel.iklan.edit',['data'=>$getModul]);
+
+        return view('panel.iklan.edit', ['data' => $getModul]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -126,7 +126,7 @@ class IklanController extends Controller
         $modul->status = $request->status;
         if ($modul->update()) {
             return redirect()->route('iklan.index')->with('message', 'Iklan telah diupdate');
-        } 
+        }
     }
 
     /**

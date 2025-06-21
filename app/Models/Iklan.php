@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Media;
 
 class Iklan extends Model
 {
@@ -17,8 +16,8 @@ class Iklan extends Model
         'status',
     ];
 
-    public function media(){
-        return $this->belongsTo(Media::class,'id_media','id');
+    public function media()
+    {
+        return $this->belongsTo(Media::class, 'id_media', 'id');
     }
-
 }
