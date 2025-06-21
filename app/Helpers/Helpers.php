@@ -4,7 +4,7 @@ namespace App\Helpers;
 use App\Models\Media;
 use App\Models\Menu;
 use App\Models\Agenda;
-use App\Models\Berita;
+use App\Models\Post;
 use App\Models\Kategori;
 use App\Models\Pdf;
 use App\Models\Iklan;
@@ -68,7 +68,7 @@ class Helpers  {
     public static function set_open($uri, $output = 'kt-menu__item--open')
     {
         $path = explode(".", Route::currentRouteName());
-        
+
         if (is_array($uri)) {
             foreach ($uri as $u) {
                 if (Route::is($u)) {
@@ -172,7 +172,7 @@ class Helpers  {
 
     public static function getTags($id)
     {
-        $getData = Berita::find($id);
+        $getData = Post::find($id);
         $tags = $getData->tags;
         $out = "";
         $tagging = array();
@@ -190,7 +190,7 @@ class Helpers  {
         $cats = Kategori::get();
         $out = "";
         foreach ($cats as $key => $value) {
-            $countThis = Berita::where("status",1)->where("id_kategori",$value->id)->count();
+            $countThis = Post::where("status",1)->where("category_id",$value->id)->count();
             $out .= '<li><a href="'.route('home.showCategories',$value->slug).'">'.$value->name.'<span> ('.$countThis.')</span></a></li>';
         }
         return $out;
@@ -199,7 +199,7 @@ class Helpers  {
     public static function getLastNews($idEx=null,$page=null)
     {   
         $segment = Request::segment(1);
-        $news = Berita::where("status",1)
+        $news = Post::where("status",1)
         ->where(function($x)use($segment,$idEx){
             if ($segment != "p" && $segment != "pengumuman" ) {
                 if ($idEx != null) {
@@ -248,7 +248,7 @@ class Helpers  {
 
     public static function getNews($limit = 4)
     {
-        $news = Berita::where("status",1)->orderBy('publish_date','desc')->limit($limit)->get();
+        $news = Post::where("status",1)->orderBy('publish_date','desc')->limit($limit)->get();
         return $news;
     }
 

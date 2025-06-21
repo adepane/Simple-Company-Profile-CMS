@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Berita;
+use App\Models\Post;
 
 class Tag extends Model
 {
@@ -16,6 +16,6 @@ class Tag extends Model
 
     public function posts()
     {
-        return $this->belongsToMany(Berita::class,'terms','id_terms','id_post');
+        return $this->belongsToMany(Post::class,'terms','id_terms','id_post');
     }
 }

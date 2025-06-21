@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Berita;
+use App\Models\Post;
 
 class Kategori extends Model
 {
@@ -15,6 +15,6 @@ class Kategori extends Model
     ];
 
     public function getBeritaCats(){
-        return $this->hasMany(Berita::class,'id_kategori');
+        return $this->hasMany(Post::class,'category_id');
     }
 }

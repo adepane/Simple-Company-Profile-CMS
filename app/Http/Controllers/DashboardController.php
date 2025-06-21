@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Berita;
+use App\Models\Post;
 use App\Models\Media;
 use App\Models\Pdf;
 use App\Models\Pesan;
@@ -22,7 +22,7 @@ class DashboardController extends Controller
 
     public function getPosts()
     {
-        $getPosts = Berita::get()->count();
+        $getPosts = Post::get()->count();
         return $getPosts;
     }
 
@@ -59,7 +59,7 @@ class DashboardController extends Controller
         $getUsers = User::count();
         return $getUsers;
     }
-    
+
     public function index()
     {
         return view('panel.home')->with('posts',$this->getPosts())->with('medias',$this->getMedia())->with('message',$this->getMessage())->with('agenda',$this->getAgenda())->with('pengumuman',$this->getPengumuman())->with('users',$this->getUsers());

@@ -8,18 +8,18 @@ use App\Models\User;
 use App\Models\Tag;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Berita extends Model
+class Post extends Model
 {
     use SoftDeletes;
-    protected $table = 'berita';
+    protected $table = 'posts';
     protected $fillable = [
         'id',
-        'judul',
+        'title',
         'slug',
         'content',
         'author',
-        'id_kategori',
-        'id_media',
+        'category_id',
+        'media_id',
         'status',
         'view',
         'publish_date',
@@ -33,7 +33,7 @@ class Berita extends Model
 
     public function kategories()
     {
-        return $this->belongsTo(Kategori::class,'id_kategori','id');
+        return $this->belongsTo(Kategori::class,'category_id','id');
     }
 
     public function authors()
@@ -46,6 +46,6 @@ class Berita extends Model
         return $this->belongsToMany(Tag::class,'terms','id_post','id_terms');
     }
     public function media(){
-        return $this->belongsTo(Media::class,'id_media','id');
+        return $this->belongsTo(Media::class,'media_id','id');
     }
 }

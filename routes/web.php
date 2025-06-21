@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\HalamanController;
@@ -59,11 +59,11 @@ Route::get('/search', [HomeController::class, 'showSearch']);
 Auth::routes();
 Route::group(['prefix' => 'panelroom'], function () {
     Route::get('/', [DashboardController::class, 'index']);
-    Route::post('berita/addTags', [BeritaController::class, 'addTags'])->name('berita.addTags');
+    Route::post('post/addTags', [PostController::class, 'addTags'])->name('post.addTags');
 
-    Route::post('quickdraft', [BeritaController::class, 'quickDraft'])->name('berita.quickDraft');
+    Route::post('quickdraft', [PostController::class, 'quickDraft'])->name('post.quickDraft');
 
-    Route::resource('berita', BeritaController::class);
+    Route::resource('post', PostController::class);
     Route::resource('kategori', KategoriController::class);
     Route::resource('tag', TagController::class);
     Route::resource('halaman', HalamanController::class);

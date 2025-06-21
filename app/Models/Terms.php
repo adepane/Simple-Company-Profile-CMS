@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Berita;
+use App\Models\Post;
 use App\Models\Tag;
 
 class Terms extends Model
@@ -20,7 +20,7 @@ class Terms extends Model
     }
 
     public function posts(){
-        return $this->belongsToMany(Berita::class);
+        return $this->belongsToMany(Post::class);
     }
 
 }

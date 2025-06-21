@@ -12,7 +12,7 @@
     @endforeach
 </div>
 @endif
-<form class="kt-form kt-form--label-right row parsley-validated" id="f_berita" action="{{ route('berita.store') }}"
+<form class="kt-form kt-form--label-right row parsley-validated" id="f_berita" action="{{ route('post.store') }}"
     method="POST" enctype="multipart/form-data">
     {{csrf_field()}}
     <div class="col-lg-8 col-sm-12">
@@ -209,7 +209,7 @@
     }).on("select2:select", function(e) {
         let tagName = e.params.data.text;
         axios({
-                url: "{!! route('berita.addTags') !!}",
+                url: "{!! route('post.addTags') !!}",
                 method: "post",
                 data: {
                     "_token": "{!! csrf_token() !!}",

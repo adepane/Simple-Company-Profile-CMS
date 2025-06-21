@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agenda;
-use App\Models\Berita;
+use App\Models\Post;
 use App\Models\Halaman;
 use App\Models\Layout;
 use App\Models\Menu;
@@ -38,15 +38,15 @@ class HomeController extends Controller
             return view('home.halaman',['data'=>$getHalaman]);
         }
     }
-    
+
     public function listPost()
     {
-        $getBeritas = Berita::where("status",1)->orderBy('publish_date','desc')->paginate(10)->onEachSide(2);
+        $getBeritas = Post::where("status",1)->orderBy('publish_date','desc')->paginate(10)->onEachSide(2);
         return view('home.berita',['data'=>$getBeritas]);
     }
     public function showPost(Request $request,$id, $slug)
     {
-        $getBerita = Berita::find($id);
+        $getBerita = Post::find($id);
         if ($getBerita == null) {
             abort(404);
         } else {
@@ -66,7 +66,7 @@ class HomeController extends Controller
     public function showSearch(Request $request)
     {
         $terms = $request->q;
-        $result = Berita::where("status",1)->where("title","like","%".$terms."%")->orderBy('publish_date','desc')->get();
+        $result = Post::where("status",1)->where("title","like","%".$terms."%")->orderBy('publish_date','desc')->get();
         $header = Str::title("Pencarian ".$terms);
         return view('home.archive',['data'=>$result,'header'=>$header]);
     }
@@ -106,7 +106,7 @@ class HomeController extends Controller
             return view('home.pengumuman_single',['data'=>$getPengumuman]);
         }
     }
-    
+
     public function showContactUs(Request $request)
     {
         return view('home.contact');

@@ -11,7 +11,7 @@
     @endforeach
 </div>
 @endif
-<form class="kt-form kt-form--label-right row" id="f_berita" action="{{ route('berita.update',$data->id) }}"
+<form class="kt-form kt-form--label-right row" id="f_berita" action="{{ route('post.update',$data->id) }}"
     method="POST" enctype="multipart/form-data">
     {{csrf_field()}}
     @method("patch")
@@ -107,7 +107,7 @@
                     <select class="form-control" name="kategori" id="kategori_berita">
                         <option value="">Pilih Kategori</option>
                         @foreach ($kategori as $keyCat => $cat)
-                        @if ($keyCat == $data->id_kategori)
+                        @if ($keyCat == $data->category_id)
                         <option value="{{ $keyCat }}" selected>{{ $cat }}</option>
                         @else
                         <option value="{{ $keyCat }}">{{ $cat }}</option>
@@ -127,10 +127,10 @@
             </div>
             <div class="kt-portlet__body">
                 <div class="form-group row">
-                    <input type="hidden" id="imageIdnews" value="{!!$data->id_media!!}" name="id_media">
+                    <input type="hidden" id="imageIdnews" value="{!!$data->media_id!!}" name="id_media">
                     <div class="col-12">
                         <div class="preview-pic">
-                            @if (!empty($data->id_media))
+                            @if (!empty($data->media_id))
                             @if (!empty($data->media->path))
                             <img src="{{ asset("files/".$data->media->path_220) }}" alt="" width="100%">
                             @else
@@ -142,19 +142,19 @@
                     </div>
                     <div class="col-6 text-center">
                         <span class="btn btn-success fileinput-button col-12">
-                            <span class="uploadnew {!! (!empty($data->id_media))?" d-none":"" !!}">Upload</span>
-                            <span class="changeupload {!! (!empty($data->id_media))?"":" d-none" !!}">Ganti</span>
+                            <span class="uploadnew {!! (!empty($data->media_id))?" d-none":"" !!}">Upload</span>
+                            <span class="changeupload {!! (!empty($data->media_id))?"":" d-none" !!}">Ganti</span>
                             <input id="fileupload" type="file" name="files">
                         </span>
                     </div>
                     <div class="col-6 text-center">
                         <a href="#"
-                            class="btn btn-primary fileinput-button pilihgambar col-12 {!! (!empty($data->id_media))?"
+                            class="btn btn-primary fileinput-button pilihgambar col-12 {!! (!empty($data->media_id))?"
                             d-none":"" !!}">
                             Pilih
                         </a>
                         <a href="#"
-                            class="btn btn-danger fileinput-button hapusgambar {!! (!empty($data->id_media))?"":"
+                            class="btn btn-danger fileinput-button hapusgambar {!! (!empty($data->media_id))?"":"
                             d-none" !!} col-12">
                             Hapus
                         </a>
@@ -226,7 +226,7 @@
     }).on("select2:select", function(e) {
         let tagName = e.params.data.text;
         axios({
-                url: "{!! route('berita.addTags') !!}",
+                url: "{!! route('post.addTags') !!}",
                 method: "post",
                 data: {
                     "_token": "{!! csrf_token() !!}",

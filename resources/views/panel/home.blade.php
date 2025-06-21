@@ -232,14 +232,14 @@
         var content = $('#draft_content').val();
         if (title != "") {
             axios({
-                url:"{{route('berita.quickDraft')}}",
+                url:"{{route('post.quickDraft')}}",
                 data:{
                     'title': title,
                     'content': content,
                     '_token': '{{csrf_token()}}'
                 },
                 method:'post',
-                
+
             })
             .then(response => {
                 if (response.data.status == 1) {

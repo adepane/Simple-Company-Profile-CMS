@@ -42,11 +42,11 @@
                     <td>{{ ($item->status ==1)?"Published":"Draft" }}</td>
                     <td>{{ $item->view }}</td>
                     <td width="20%">
-                        <a class="btn btn-primary btn-icon" href="{{ route('berita.edit',$item->id) }}"><i
+                        <a class="btn btn-primary btn-icon" href="{{ route('post.edit',$item->id) }}"><i
                                 class="fas fa-pencil-alt"></i></a>
                         <button class="btn btn-danger destroy deleteberita btn-icon" href="#"
                             id-berita="{{ $item->id }}"><i class="fas fa-trash"></i></button>
-                        <form action="{{ route('berita.destroy',$item->id) }}" style="display:none"
+                        <form action="{{ route('post.destroy',$item->id) }}" style="display:none"
                             id="destroy_{{ $item->id }}" method="POST">
                             @method('delete')
                             @csrf

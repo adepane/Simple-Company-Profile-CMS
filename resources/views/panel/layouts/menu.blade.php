@@ -14,7 +14,7 @@
             </svg></span><span class="kt-menu__link-text">Dashboard</span></a>
 </li>
 
-<li class="kt-menu__item  kt-menu__item--submenu {{ CMS::set_open('berita') }} {{ CMS::set_open('kategori') }} {{ CMS::set_open('tag') }}"
+<li class="kt-menu__item  kt-menu__item--submenu {{ CMS::set_open('post') }} {{ CMS::set_open('kategori') }} {{ CMS::set_open('tag') }}"
     aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:;"
         class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-icon"><svg xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
@@ -32,12 +32,12 @@
             class="kt-menu__ver-arrow la la-angle-right"></i></a>
     <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
         <ul class="kt-menu__subnav">
-            <li class="kt-menu__item {{ CMS::set_active('berita.index') }} {{ CMS::set_active('berita.edit') }}"
-                aria-haspopup="true"><a href="{{ route('berita.index') }}" class="kt-menu__link "><i
+            <li class="kt-menu__item {{ CMS::set_active('post.index') }} {{ CMS::set_active('post.edit') }}"
+                aria-haspopup="true"><a href="{{ route('post.index') }}" class="kt-menu__link "><i
                         class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                         class="kt-menu__link-text">Semua Berita</span></a></li>
-            <li class="kt-menu__item {{ CMS::set_active('berita.create') }}" aria-haspopup="true"><a
-                    href="{{ route('berita.create') }}" class="kt-menu__link "><i
+            <li class="kt-menu__item {{ CMS::set_active('post.create') }}" aria-haspopup="true"><a
+                    href="{{ route('post.create') }}" class="kt-menu__link "><i
                         class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                         class="kt-menu__link-text">Tambah Baru</span></a></li>
             <li class="kt-menu__item {{ CMS::setActive('kategori') }}" aria-haspopup="true"><a
