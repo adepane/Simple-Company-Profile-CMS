@@ -1,7 +1,7 @@
 # Simple Company Profile CMS
 
 This application is for simple company profile with already have content
-management system. This application running with Laravel 9 that update from 7.
+management system. This application running with Laravel 11 that update from 10.
 
 ## Feature
 - Landing Page
@@ -22,7 +22,7 @@ management system. This application running with Laravel 9 that update from 7.
   - Dynamic Menu Navigation for landing page
 
 ## Requirement
-- php >= 8.0.2
+- php >= 8.2
 - composer
 
 ## Start Config
@@ -51,9 +51,9 @@ After you done with it, now please create new key
 $ php artisan key:generate
 ```
 
-Before access the installer, purge the all configuration
+Run database migrations and seeders to set up your database
 ```
-$ php artisan optimize:clear
+$ php artisan migrate --seed
 ```
 
 To run it in the browser, you can use valet like `yourdirname.test`, or if you don't have valet installed, you run development serve like so
@@ -62,11 +62,6 @@ $ php artisan serve
 ```
 
 ## Start Using
-
-Access the installer 
-```
-http://127.0.0.0:8000/install
-```
 
 Access the Admin Panel
 ```
