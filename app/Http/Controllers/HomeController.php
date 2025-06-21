@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Agenda;
 use App\Models\Gallery;
 use App\Models\Halaman;
-use App\Models\Kategori;
+use App\Models\Category;
 use App\Models\Pengumuman;
 use App\Models\Pesan;
 use App\Models\Post;
@@ -69,10 +69,10 @@ class HomeController extends Controller
 
     public function showCategories(Request $request, $slug)
     {
-        $getCategory = Kategori::where('slug', $slug)->get()->first();
+        $getCategory = Category::where('slug', $slug)->get()->first();
         $header = Str::title('Kategori '.$getCategory->name);
 
-        return view('home.archive', ['data' => $getCategory->getBeritaCats, 'header' => $header]);
+        return view('home.archive', ['data' => $getCategory->posts, 'header' => $header]);
     }
 
     public function listAgenda()

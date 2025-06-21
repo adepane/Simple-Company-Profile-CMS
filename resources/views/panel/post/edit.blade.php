@@ -102,7 +102,7 @@
                 <div class="kt-portlet__body">
                     <div class="form-group">
                         @php
-                            $kategori = App\Models\Kategori::pluck('name','id')->all();
+                            $kategori = App\Models\Category::pluck('name','id')->all();
                         @endphp
                         <select class="form-control" name="kategori" id="kategori_berita">
                             <option value="">Pilih Kategori</option>

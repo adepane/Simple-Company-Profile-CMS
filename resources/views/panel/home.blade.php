@@ -184,7 +184,7 @@
                             </div>
                             <div class="form-group">
                                 <?php
-                                    $kategori = App\Models\Kategori::pluck('name','id')->all();
+                                    $kategori = App\Models\Category::pluck('name','id')->all();
                                 ?>
                                 <select class="form-control select2" name="kategori" id="kategori_berita" required>
                                     <option value="">Pilih Kategori</option>

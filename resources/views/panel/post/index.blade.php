@@ -34,7 +34,7 @@
                 @foreach ($data as $item)
                     <tr>
                         <td>{{ $item->title }}</td>
-                        <td>{{ $item->kategories->name }}</td>
+                        <td>{{ $item->category->name }}</td>
                         <td width="15%">
                             {!! implode(", ",$item->tags->pluck('name','id')->all()) !!}
                         </td>

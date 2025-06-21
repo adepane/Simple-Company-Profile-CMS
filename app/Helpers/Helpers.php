@@ -5,7 +5,7 @@ namespace App\Helpers;
 use App\Models\Agenda;
 use App\Models\Gallery;
 use App\Models\Iklan;
-use App\Models\Kategori;
+use App\Models\Category;
 use App\Models\Layout;
 use App\Models\Media;
 use App\Models\Menu;
@@ -197,7 +197,7 @@ class Helpers
 
     public static function getCategories()
     {
-        $cats = Kategori::get();
+        $cats = Category::get();
         $out = '';
         foreach ($cats as $key => $value) {
             $countThis = Post::where('status', 1)->where('category_id', $value->id)->count();

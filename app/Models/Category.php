@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Kategori extends Model
+class Category extends Model
 {
-    protected $table = 'kategori';
+    protected $table = 'categories';
 
     protected $fillable = [
         'id',
@@ -14,7 +14,7 @@ class Kategori extends Model
         'slug',
     ];
 
-    public function getBeritaCats()
+    public function posts()
     {
         return $this->hasMany(Post::class, 'category_id');
     }

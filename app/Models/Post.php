@@ -32,9 +32,9 @@ class Post extends Model
         'publish_date',
     ];
 
-    public function kategories()
+    public function category()
     {
-        return $this->belongsTo(Kategori::class, 'category_id', 'id');
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
     public function authors()

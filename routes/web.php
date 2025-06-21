@@ -6,7 +6,7 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HalamanController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IklanController;
-use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MenuController;
@@ -64,7 +64,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::post('quickdraft', [PostController::class, 'quickDraft'])->name('post.quickDraft');
 
     Route::resource('post', PostController::class);
-    Route::resource('kategori', KategoriController::class);
+    Route::resource('kategori', CategoryController::class);
     Route::resource('tag', TagController::class);
     Route::resource('halaman', HalamanController::class);
 
