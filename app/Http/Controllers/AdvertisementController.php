@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Iklan;
+use App\Models\Advertisement;
 use Illuminate\Http\Request;
 
-class IklanController extends Controller
+class AdvertisementController extends Controller
 {
 
     /**
@@ -15,9 +15,9 @@ class IklanController extends Controller
      */
     public function index()
     {
-        $getModul = Iklan::paginate(10)->onEachSide(2);
+        $getModul = Advertisement::paginate(10)->onEachSide(2);
 
-        return view('panel.iklan.index', ['data' => $getModul]);
+        return view('panel.advertisement.index', ['data' => $getModul]);
     }
 
     /**
@@ -27,7 +27,7 @@ class IklanController extends Controller
      */
     public function create()
     {
-        return view('panel.iklan.create');
+        return view('panel.advertisement.create');
     }
 
     /**
@@ -40,11 +40,11 @@ class IklanController extends Controller
         // dd($request->all());
         switch ((int) $request->position) {
             case 1:
-                $checkIklan = Iklan::where('position', $request->position)->get()->first();
-                if (! empty($checkIklan)) {
-                    return redirect()->back()->withErrors(['Iklan Homepage hanya boleh 1']);
+                $checkAdvertisement = Advertisement::where('position', $request->position)->get()->first();
+                if (! empty($checkAdvertisement)) {
+                    return redirect()->back()->withErrors(['Advertisement Homepage hanya boleh 1']);
                 } else {
-                    $modul = new Iklan;
+                    $modul = new Advertisement;
                     $modul->title = $request->title;
                     $modul->tautan = $request->tautan;
                     $modul->id_media = $request->id_media;
@@ -53,16 +53,16 @@ class IklanController extends Controller
                     $modul->script = $request->script;
                     $modul->status = $request->status;
                     if ($modul->save()) {
-                        return redirect()->route('iklan.index')->with('message', 'Iklan telah ditambah');
+                        return redirect()->route('advertisement.index')->with('message', 'Advertisement telah ditambah');
                     }
                 }
                 break;
             case 2:
-                $checkIklan = Iklan::where('position', $request->position)->get()->first();
-                if (! empty($checkIklan)) {
-                    return redirect()->back()->withErrors(['Iklan Floating hanya boleh 1']);
+                $checkAdvertisement = Advertisement::where('position', $request->position)->get()->first();
+                if (! empty($checkAdvertisement)) {
+                    return redirect()->back()->withErrors(['Advertisement Floating hanya boleh 1']);
                 } else {
-                    $modul = new Iklan;
+                    $modul = new Advertisement;
                     $modul->title = $request->title;
                     $modul->tautan = $request->tautan;
                     $modul->id_media = $request->id_media;
@@ -71,12 +71,12 @@ class IklanController extends Controller
                     $modul->script = $request->script;
                     $modul->status = $request->status;
                     if ($modul->save()) {
-                        return redirect()->route('iklan.index')->with('message', 'Iklan telah ditambah');
+                        return redirect()->route('advertisement.index')->with('message', 'Advertisement telah ditambah');
                     }
                 }
                 break;
             default:
-                $modul = new Iklan;
+                $modul = new Advertisement;
                 $modul->title = $request->title;
                 $modul->tautan = $request->tautan;
                 $modul->id_media = $request->id_media;
@@ -85,7 +85,7 @@ class IklanController extends Controller
                 $modul->script = $request->script;
                 $modul->status = $request->status;
                 if ($modul->save()) {
-                    return redirect()->route('iklan.index')->with('message', 'Iklan telah ditambah');
+                    return redirect()->route('advertisement.index')->with('message', 'Advertisement telah ditambah');
                 }
                 break;
         }
@@ -99,9 +99,9 @@ class IklanController extends Controller
      */
     public function edit($id)
     {
-        $getModul = Iklan::find($id);
+        $getModul = Advertisement::find($id);
 
-        return view('panel.iklan.edit', ['data' => $getModul]);
+        return view('panel.advertisement.edit', ['data' => $getModul]);
     }
 
     /**
@@ -112,7 +112,7 @@ class IklanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $modul = Iklan::find($id);
+        $modul = Advertisement::find($id);
         $modul->title = $request->title;
         $modul->tautan = $request->tautan;
         $modul->id_media = $request->id_media;
@@ -121,7 +121,7 @@ class IklanController extends Controller
         $modul->script = $request->script;
         $modul->status = $request->status;
         if ($modul->update()) {
-            return redirect()->route('iklan.index')->with('message', 'Iklan telah diupdate');
+            return redirect()->route('advertisement.index')->with('message', 'Advertisement telah diupdate');
         }
     }
 
@@ -133,9 +133,9 @@ class IklanController extends Controller
      */
     public function destroy($id)
     {
-        $modul = Iklan::find($id);
+        $modul = Advertisement::find($id);
         if ($modul->delete()) {
-            return redirect()->back()->with('message', 'Iklan telah dihapus');
+            return redirect()->back()->with('message', 'Advertisement telah dihapus');
         }
     }
 }

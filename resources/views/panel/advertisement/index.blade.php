@@ -1,5 +1,5 @@
 @extends('panel.layouts.apps')
-@include('panel.iklan.submenu')
+@include('panel.advertisement.submenu')
 @section('content')
 @if(session()->has('message'))
 <div class="alert alert-success">
@@ -13,7 +13,7 @@
                 <i class="kt-font-brand flaticon2-menu-2"></i>
             </span>
             <h3 class="kt-portlet__head-title">
-                List Iklan
+                List Advertisement
             </h3>
         </div>
     </div>
@@ -45,11 +45,11 @@
                     </td>
                     <td>{{ $item->tautan }}</td>
                     <td width="20%" style="text-align:center">
-                        <a class="btn btn-primary btn-icon" href="{{ route('iklan.edit',$item->id) }}"><i
+                        <a class="btn btn-primary btn-icon" href="{{ route('advertisement.edit',$item->id) }}"><i
                                 class="fas fa-pencil-alt"></i></a>
-                        <button type="button" class="btn btn-danger destroy deleteiklan btn-icon" id-iklan="{{ $item->id }}"><i
+                        <button type="button" class="btn btn-danger destroy deleteadvertisement btn-icon" id-advertisement="{{ $item->id }}"><i
                                 class="fas fa-trash"></i></button>
-                        <form action="{{ route('iklan.destroy',$item->id) }}" style="display:none"
+                        <form action="{{ route('advertisement.destroy',$item->id) }}" style="display:none"
                             id="destroy_{{ $item->id }}" method="POST">
                             @method('delete')
                             @csrf
@@ -75,26 +75,26 @@
 @endsection
 @push('script')
 <script>
-    $(document).on('click', '.deleteiklan', function(e) {
+    $(document).on('click', '.deleteadvertisement', function(e) {
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
         var $modal = $('#modal-normal');
-        var valueiklan = $(this).attr('id-iklan');
+        var valueadvertisement = $(this).attr('id-advertisement');
         $modal.find(".modal-title").html("Hapus Slide");
-        $modal.find(".modal-body").html("Apakah Anda Yakin Ingin menghapus iklan ini?");
+        $modal.find(".modal-body").html("Apakah Anda Yakin Ingin menghapus advertisement ini?");
         $modal.find(".modal-footer").html(
-            '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary yeshapuiklan" valueid="' +
-            valueiklan + '">OK</button>');
+            '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary yeshapuadvertisement" valueid="' +
+            valueadvertisement + '">OK</button>');
         $modal.modal('show');
     });
-    $(document).on('click', '.yeshapuiklan', function(e) {
+    $(document).on('click', '.yeshapuadvertisement', function(e) {
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
         var $modal = $('#modal-normal');
-        var id_iklan = $(this).attr('valueid');
-        $('#destroy_' + id_iklan).trigger('submit');
+        var id_advertisement = $(this).attr('valueid');
+        $('#destroy_' + id_advertisement).trigger('submit');
         $modal.modal('hide');
     });
 </script>

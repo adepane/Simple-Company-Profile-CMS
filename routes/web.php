@@ -5,7 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\IklanController;
+use App\Http\Controllers\AdvertisementController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\MediaController;
@@ -87,7 +87,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::resource('users', UsersController::class);
     Route::resource('announcement', AnnouncementController::class);
     Route::resource('gallery', GalleryController::class);
-    Route::resource('iklan', IklanController::class);
+    Route::resource('advertisement', AdvertisementController::class);
     Route::delete('setting/deleted', [SettingController::class, 'deleted'])->name('setting.deleted');
     Route::resource('setting', SettingController::class);
 });

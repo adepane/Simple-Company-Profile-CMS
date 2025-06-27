@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 use App\Models\Agenda;
 use App\Models\Gallery;
-use App\Models\Iklan;
+use App\Models\Advertisement;
 use App\Models\Category;
 use App\Models\Layout;
 use App\Models\Media;
@@ -223,7 +223,7 @@ class Helpers
 
     public static function getSidebarTopAds($position)
     {
-        $getSidebarTop = Iklan::where('status', 1)->where('position', (int) $position)->get();
+        $getSidebarTop = Advertisement::where('status', 1)->where('position', (int) $position)->get();
         $out = '';
         foreach ($getSidebarTop as $key => $value) {
             $out .= '<div class="widget">';
@@ -280,7 +280,7 @@ class Helpers
 
     public function getHomepageAds()
     {
-        $getHomepageAds = Iklan::where('status', 1)->where('position', 1)->get()->first();
+        $getHomepageAds = Advertisement::where('status', 1)->where('position', 1)->get()->first();
 
         return $getHomepageAds;
     }
@@ -301,7 +301,7 @@ class Helpers
 
     public static function advertisement($loc)
     {
-        $ads = Iklan::where('position', $loc)->get();
+        $ads = Advertisement::where('position', $loc)->get();
 
         return $ads;
     }

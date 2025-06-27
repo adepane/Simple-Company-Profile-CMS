@@ -365,7 +365,7 @@
     });
 </script>
 
-@if (!empty($iklanFloat->id_media) || !empty($iklanFloat->script))
+@if (!empty($advertisementFloat->id_media) || !empty($advertisementFloat->script))
 <!--Start Walldown-->
 <div class="floatingads">
     <div class="mfp-bg mfp-ready"></div>
@@ -375,12 +375,12 @@
             <div class="walldownads">
                 <div class="clearfix"></div>
                 <div class="walldownads">
-                    @if (!empty($iklanFloat->script))
-                    {!!$iklanFloat->script!!}
+                    @if (!empty($advertisementFloat->script))
+                    {!!$advertisementFloat->script!!}
                     @else
                     <span class="walldownimg">
-                        <a href="{{$iklanFloat->tautan}}" class="clickedAds" target="blank">
-                            <img src="{{CMS::getImage($iklanFloat->id_media)}}" width="100%" />
+                        <a href="{{$advertisementFloat->tautan}}" class="clickedAds" target="blank">
+                            <img src="{{CMS::getImage($advertisementFloat->id_media)}}" width="100%" />
                         </a>
                     </span>
                     @endif

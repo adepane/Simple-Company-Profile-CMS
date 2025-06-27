@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Iklan extends Model
+class Advertisement extends Model
 {
     protected $fillable = [
         'id',

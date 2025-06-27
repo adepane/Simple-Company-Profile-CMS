@@ -1,7 +1,6 @@
 @extends('panel.layouts.apps')
-@include('panel.iklan.submenu')
+@include('panel.advertisement.submenu')
 @section('content')
-
 <link rel="stylesheet" href={!! asset("jsUpload/css/jquery.fileupload.css") !!}>
 <link rel="stylesheet" href={!! asset("jsUpload/css/jquery.fileupload-ui.css") !!}>
 @if ($errors->any())
@@ -13,60 +12,61 @@
     @endforeach
 </div>
 @endif
-<form class="kt-form kt-form--label-right row" id="f_editiklan" action="{{ route('iklan.update',$data->id) }}" method="POST" enctype="multipart/form-data">
+<form class="kt-form kt-form--label-right row" id="f_advertisement" action="{{ route('advertisement.store') }}" method="POST"
+    enctype="multipart/form-data">
     {{csrf_field()}}
-    @method('patch')
-    <input type="hidden" name="lastState" value="{{ url()->previous() }}">
     <div class="col-8">
         <div class="kt-portlet kt-portlet--mobile">
             <div class="kt-portlet__body">
                 <div class="form-group form-group-last">
                     <div class="alert alert-secondary" role="alert">
-                        <div class="alert-icon"><i class="flaticon-edit kt-font-brand"></i></div>
+                        <div class="alert-icon"><i class="flaticon-add kt-font-brand"></i></div>
                         <div class="alert-text">
-                            Edit Link
+                            Tambah Advertisement
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label class="col-form-label col-2">Judul Link</label>
+                    <label class="col-form-label col-2">Judul Advertisement *</label>
                     <div class="col-10">
-                        <input class="form-control" type="text" value="{{ $data->title }}" id="title" name="title" placeholder="Title">
+                        <input class="form-control" type="text" value="" id="title" name="title"
+                            placeholder="Judul Advertisement">
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label class="col-form-label col-2">Tautan</label>
                     <div class="col-10">
-                        <input class="form-control" type="text" value="{{ $data->tautan }}" id="tautan" name="tautan" placeholder="Tautan">
+                        <input class="form-control" type="text" value="" id="tautan" name="tautan" placeholder="Tautan">
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label class="col-form-label col-2">Posisi</label>
+                    <label class="col-form-label col-2">Posisi *</label>
                     <div class="col-10">
                         <select class="form-control select2" name="position" id="position">
                             <option value="" disabled selected>Pilih Posisi</option>
-                            <option value="1" {!! ($data->position == 1)?"selected":"" !!}>Homepage</option>
-                            <option value="2" {!! ($data->position == 2)?"selected":"" !!}>Floating</option>
-                            <option value="3" {!! ($data->position == 3)?"selected":"" !!}>Sidebar Atas</option>
-                            <option value="4" {!! ($data->position == 4)?"selected":"" !!}>Sidebar Bawah</option>
+                            <option value="1">Homepage</option>
+                            <option value="2">Floating</option>
+                            <option value="3">Sidebar Atas</option>
+                            <option value="4">Sidebar Bawah</option>
                         </select>
                     </div>
                 </div>
 
-                <div class="form-group row ordering {!! ($data->position == 1 || $data->position == 2)?"d-none":"" !!} ">
+                <div class="form-group row ordering d-none">
                     <label class="col-form-label col-2">Urutan</label>
                     <div class="col-10">
-                        <input class="form-control" type="number" value="{{ $data->order }}" name="order">
+                        <input class="form-control" type="number" value="" name="order">
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label class="col-form-label col-2">Script (Optional)</label>
+                    <label class="col-form-label col-2">Script</label>
                     <div class="col-10">
-                        <textarea rows="4" class="form-control"  name="script" placeholder="JavaScript / Embed / YouTube Embed">{{$data->script}}</textarea>
+                        <textarea rows="4" class="form-control" name="script"
+                            placeholder="JavaScript / Embed / YouTube Embed"></textarea>
                     </div>
                 </div>
             </div>
@@ -96,31 +96,23 @@
             </div>
             <div class="kt-portlet__body">
                 <div class="form-group row">
-                    <input type="hidden" id="imageIdnews" value="{!!$data->id_media!!}" name="id_media">
+                    <input type="hidden" id="imageIdnews" value="" name="id_media">
                     <div class="col-12">
-                        <div class="preview-pic">
-                            @if (!empty($data->id_media))
-                                @if (!empty($data->media->path))
-                                    <img src="{{ asset("files/".$data->media->path_220) }}" alt="" width="100%">
-                                @else
-                                    Photo Telah Dihapus
-                                @endif
-                            @endif
-                        </div>
-                    <hr/>
+                        <div class="preview-pic"></div>
+                        <hr />
                     </div>
                     <div class="col-6 text-center">
                         <span class="btn btn-success fileinput-button col-12">
-                            <span class="uploadnew {!! (!empty($data->id_media))?"d-none":"" !!}">Upload</span>
-                            <span class="changeupload {!! (!empty($data->id_media))?"":"d-none" !!}">Ganti</span>
+                            <span class="uploadnew ">Upload</span>
+                            <span class="changeupload d-none">Ganti</span>
                             <input id="fileupload" type="file" name="files">
                         </span>
                     </div>
                     <div class="col-6 text-center">
-                        <a href="#" class="btn btn-primary fileinput-button pilihgambar col-12 {!! (!empty($data->id_media))?"d-none":"" !!}">
+                        <a href="#" class="btn btn-primary fileinput-button pilihgambar col-12">
                             Pilih
                         </a>
-                        <a href="#" class="btn btn-danger fileinput-button hapusgambar {!! (!empty($data->id_media))?"":"d-none" !!} col-12">
+                        <a href="#" class="btn btn-danger fileinput-button hapusgambar d-none col-12">
                             Hapus
                         </a>
                     </div>
@@ -138,80 +130,77 @@
             <div class="kt-portlet__body">
                 <div class="form-group row">
                     <select name="status" class="form-control select2">
-                        <option value="1" {!!($data->status == 1)?"selected":""!!}>Enable</option>
-                        <option value="0" {!!($data->status == 0)?"selected":""!!}>Disable</option>
+                        <option value="1">Enable</option>
+                        <option value="0">Disable</option>
                     </select>
                 </div>
             </div>
         </div>
     </div>
-
 </form>
-
 @endsection
-@section('script')
-<script src="{!! asset("js/jquery-ui.js") !!}"></script>
-<script src="{!! asset("js/jquery.fileupload.js") !!}"></script>
+@push('script')
+<script src="{!! asset("/js/jquery-ui.js") !!}"></script>
+<script src="{!! asset("/js/jquery.fileupload.js") !!}"></script>
+
 <script>
-    $(document).on('change','#position',function(e){
+    $(document).on('change', '#position', function(e) {
         let posVal = $('#position').val();
         switch (posVal) {
             case "1":
                 $('.ordering').addClass('d-none');
                 break;
-
             case "2":
                 $('.ordering').addClass('d-none');
                 break;
-        
             default:
-             $('.ordering').removeClass('d-none');
+                $('.ordering').removeClass('d-none');
                 break;
         }
     });
-    $(document).ready(function(){
-        $("#f_iklan").validate( {
+    $(document).ready(function() {
+        $("#f_advertisement").validate({
             rules: {
                 title: {
                     required: !0
                 },
                 position: {
-                    required:!0
+                    required: !0
                 }
             },
-            errorPlacement:function(e, r) {
-                var i=r.closest(".input-group");
-                i.length?i.after(e.addClass("invalid-feedback")): r.after(e.addClass("invalid-feedback"))
+            errorPlacement: function(e, r) {
+                var i = r.closest(".input-group");
+                i.length ? i.after(e.addClass("invalid-feedback")) : r.after(e.addClass(
+                    "invalid-feedback"))
             },
-            invalidHandler:function(e, r) {
+            invalidHandler: function(e, r) {
                 KTUtil.scrollTop();
             }
         });
     });
-    $(function () {
+    $(function() {
         $('#fileupload').fileupload({
             url: '{!! route("media.ajaxstore") !!}',
             dataType: 'json',
-            done: function (e,data) {
-                console.log(data.result);
+            done: function(e, data) {
                 var dataRes = data.result;
                 if (dataRes.status == 1) {
                     $('.uploadnew').addClass('d-none');
                     $('.changeupload').removeClass('d-none');
-                    $('.preview-pic').html('<img width="100%" src="{!! url("files") !!}/'+dataRes.path+'" />');
+                    $('.preview-pic').html('<img width="100%" src="{!! url("files") !!}/' + dataRes
+                        .path + '" />');
                     $('fileinput-button').html('Ganti Gambar');
                     $('#imageIdnews').val(dataRes.imageId);
                     $('.pilihgambar').addClass('d-none');
                     $('.hapusgambar').removeClass('d-none');
-                    toastr.success(dataRes.message,"Success");
+                    toastr.success(dataRes.message, "Success");
                 } else {
-                    toastr.error(dataRes.message,"Failed");
-
+                    toastr.error(dataRes.message, "Failed");
                 }
             }
         });
     });
-    $(document).on('click','.pilihgambar',function(e){
+    $(document).on('click', '.pilihgambar', function(e) {
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
@@ -219,31 +208,30 @@
         $modal.find(".modal-title").html("Pilih Gambar");
         $modal.find(".modal-body").html("");
         $.ajax({
-            url:"{{ route('media.modal') }}",
-            type:"GET",
-            data:{},
-            success:function(e){
+            url: "{{ route('media.modal') }}",
+            type: "GET",
+            data: {},
+            success: function(e) {
                 $modal.find(".modal-body").html(e);
             }
         });
         $modal.find(".modal-footer").html('');
         $modal.modal('show');
     });
-    $(document).on('click','.choosepicture',function(e){
+    $(document).on('click', '.choosepicture', function(e) {
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
         var $modal = $('#modal-full');
         var id_gambar = $(this).attr('id-gambar');
         var path_gambar = $(this).attr('path-gambar');
-        $('.preview-pic').html('<img width="100%" src="{!! url("files") !!}/'+path_gambar+'" />');
+        $('.preview-pic').html('<img width="100%" src="{!! url("files") !!}/' + path_gambar + '" />');
         $('#imageIdnews').val(id_gambar);
         $('.pilihgambar').addClass('d-none');
         $('.hapusgambar').removeClass('d-none');
         $modal.modal('hide');
-
     });
-    $(document).on('click','.hapusgambar',function(e){
+    $(document).on('click', '.hapusgambar', function(e) {
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
@@ -255,4 +243,4 @@
         $('.changeupload').addClass('d-none');
     });
 </script>
-@endsection
+@endpush
