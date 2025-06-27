@@ -12,7 +12,6 @@ use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\AnnouncementController;
-use App\Http\Controllers\PesanController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SliderController;
@@ -35,7 +34,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/hubungi', [HomeController::class, 'showContactUs']);
-Route::post('/hubungi', [HomeController::class, 'kirimPesan'])->name('home.kirimPesan');
 
 Route::get('/p/{slug}', [HomeController::class, 'showPage'])->name('home.showPage');
 
@@ -88,7 +86,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::resource('slider', SliderController::class);
     Route::resource('users', UsersController::class);
     Route::resource('announcement', AnnouncementController::class);
-    Route::resource('pesan', PesanController::class);
     Route::resource('gallery', GalleryController::class);
     Route::resource('iklan', IklanController::class);
     Route::delete('setting/deleted', [SettingController::class, 'deleted'])->name('setting.deleted');

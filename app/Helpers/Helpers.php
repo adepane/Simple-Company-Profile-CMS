@@ -10,7 +10,6 @@ use App\Models\Layout;
 use App\Models\Media;
 use App\Models\Menu;
 use App\Models\Document;
-use App\Models\Pesan;
 use App\Models\Post;
 use App\Models\Settings;
 use App\Models\Slider;
@@ -239,9 +238,7 @@ class Helpers
 
     public static function getMessage()
     {
-        $getPesan = Pesan::where('status', 0)->get();
-
-        return $getPesan;
+        return collect([]);
     }
 
     public static function getSlider($limit = 3)

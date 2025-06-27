@@ -7,7 +7,6 @@ use App\Models\Gallery;
 use App\Models\Page;
 use App\Models\Category;
 use App\Models\Announcement;
-use App\Models\Pesan;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -127,21 +126,4 @@ class HomeController extends Controller
         return view('home.gallery_single', ['galleries' => $getMediaGallery]);
     }
 
-    public function kirimPesan(Request $request)
-    {
-        $modul = new Pesan;
-        $modul->nama = $request->form_name;
-        $modul->email = $request->form_email;
-        $modul->phone = $request->form_phone;
-        $modul->perihal = $request->form_subject;
-        $modul->isi = $request->form_message;
-        $modul->status = 0;
-        $dataReturn = [];
-        if ($modul->save()) {
-            $dataReturn['status'] = 'true';
-            $dataReturn['message'] = 'Thanks for your contact, your message was sent';
-
-            return $dataReturn;
-        }
-    }
 }

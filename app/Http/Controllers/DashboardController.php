@@ -6,7 +6,6 @@ use App\Models\Agenda;
 use App\Models\Media;
 use App\Models\Document;
 use App\Models\Announcement;
-use App\Models\Pesan;
 use App\Models\Post;
 use App\Models\User;
 use Arr;
@@ -33,10 +32,7 @@ class DashboardController extends Controller
 
     public function getMessage()
     {
-        $getAll = Pesan::count();
-        $unread = Pesan::where('status', 0)->count();
-
-        return $totalMessasge = Arr::add(['unread' => $unread], 'total', $getAll);
+        return $totalMessasge = Arr::add(['unread' => 0], 'total', 0);
     }
 
     public function getAgenda()
