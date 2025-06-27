@@ -9,13 +9,13 @@ class Slider extends Model
     protected $fillable = [
         'id',
         'title',
-        'id_media',
+        'media_id',
         'desc',
         'order',
     ];
 
     public function media()
     {
-        return $this->belongsTo(Media::class, 'id_media', 'id');
+        return $this->belongsTo(Media::class, 'media_id', 'id');
     }
 }

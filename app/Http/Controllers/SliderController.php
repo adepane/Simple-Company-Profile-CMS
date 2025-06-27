@@ -37,13 +37,13 @@ class SliderController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'id_media' => 'required',
+            'media_id' => 'required',
             'order' => 'required',
         ]
         );
         $modul = new Slider;
         $modul->title = $request->title;
-        $modul->id_media = $request->id_media;
+        $modul->media_id = $request->media_id;
         $modul->desc = json_encode($request->desc);
         $modul->order = $request->order;
         if ($modul->save()) {
@@ -74,7 +74,7 @@ class SliderController extends Controller
     {
         $modul = Slider::find($id);
         $modul->title = $request->title;
-        $modul->id_media = $request->id_media;
+        $modul->media_id = $request->media_id;
         $modul->desc = json_encode($request->desc);
         $modul->order = $request->order;
         if ($modul->update()) {

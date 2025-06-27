@@ -37,7 +37,7 @@
             </div>
 
             <div class="form-group row">
-                <input type="hidden" id="imageIdnews" value="" name="id_media">
+                <input type="hidden" id="imageIdnews" value="" name="media_id">
                 <div class="offset-2 col-10">
                     <div class="preview-pic"></div>
                     <hr />
