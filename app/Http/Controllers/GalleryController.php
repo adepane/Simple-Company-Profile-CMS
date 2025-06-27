@@ -7,15 +7,11 @@ use Illuminate\Http\Request;
 
 class GalleryController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    
     public function index()
     {
-        $getModul = Gallery::orderBy('id','desc')->paginate(10)->onEachSide(2);
-        return view('panel.gallery.index',['data'=>$getModul]);
+        $getModul = Gallery::orderBy('id', 'desc')->paginate(10)->onEachSide(2);
+
+        return view('panel.gallery.index', ['data' => $getModul]);
     }
 
     /**
@@ -31,7 +27,6 @@ class GalleryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -40,13 +35,14 @@ class GalleryController extends Controller
         // dd($request->all());
         $modul = new Gallery;
         $modul->title = $request->title;
-        if($modul->save()){
+        if ($modul->save()) {
             foreach ($request->id_media as $key => $value) {
-                $modul->gallerymedias()->attach($value,['photo_desc' => $request->ket_gambar[$key]]);
+                $modul->gallerymedias()->attach($value, ['photo_desc' => $request->ket_gambar[$key]]);
             }
-            return redirect()->route('gallery.index')->with('messsage','Galeri telah ditambah');
+
+            return redirect()->route('gallery.index')->with('messsage', 'Galeri telah ditambah');
         }
-        
+
     }
 
     /**
@@ -58,13 +54,13 @@ class GalleryController extends Controller
     public function edit($id)
     {
         $getModul = Gallery::find($id);
-        return view('panel.gallery.edit',['data'=>$getModul]);
+
+        return view('panel.gallery.edit', ['data' => $getModul]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -75,11 +71,11 @@ class GalleryController extends Controller
         $modul->gallerymedias()->detach();
         $modul->title = $request->title;
         foreach ($request->id_media as $key => $value) {
-            $modul->gallerymedias()->attach($value,['photo_desc' => $request->ket_gambar[$key]]);
+            $modul->gallerymedias()->attach($value, ['photo_desc' => $request->ket_gambar[$key]]);
         }
-        if($modul->update()){
-            
-            return redirect()->route('gallery.index')->with('messsage','Galeri telah diupdate');
+        if ($modul->update()) {
+
+            return redirect()->route('gallery.index')->with('messsage', 'Galeri telah diupdate');
         }
     }
 

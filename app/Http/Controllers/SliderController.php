@@ -7,10 +7,6 @@ use Illuminate\Http\Request;
 
 class SliderController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +15,8 @@ class SliderController extends Controller
     public function index()
     {
         $getModul = Slider::paginate(10)->onEachSide(2);
-        return view('panel.slider.index',['data'=>$getModul]);
+
+        return view('panel.slider.index', ['data' => $getModul]);
     }
 
     /**
@@ -35,24 +32,23 @@ class SliderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $this->validate($request, [
-            'id_media' => 'required',
+            'media_id' => 'required',
             'order' => 'required',
-            ]
+        ]
         );
         $modul = new Slider;
         $modul->title = $request->title;
-        $modul->id_media = $request->id_media;
+        $modul->media_id = $request->media_id;
         $modul->desc = json_encode($request->desc);
         $modul->order = $request->order;
         if ($modul->save()) {
             return redirect()->route('slider.index')->with('message', 'Slide telah ditambah');
-        } 
+        }
     }
 
     /**
@@ -64,13 +60,13 @@ class SliderController extends Controller
     public function edit($id)
     {
         $modul = Slider::find($id);
-        return view('panel.slider.edit',['data'=>$modul]);
+
+        return view('panel.slider.edit', ['data' => $modul]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -78,12 +74,12 @@ class SliderController extends Controller
     {
         $modul = Slider::find($id);
         $modul->title = $request->title;
-        $modul->id_media = $request->id_media;
+        $modul->media_id = $request->media_id;
         $modul->desc = json_encode($request->desc);
         $modul->order = $request->order;
         if ($modul->update()) {
             return redirect()->route('slider.index')->with('message', 'Slide telah diupdate');
-        } 
+        }
     }
 
     /**
@@ -97,6 +93,6 @@ class SliderController extends Controller
         $modul = Slider::find($id);
         if ($modul->delete()) {
             return redirect()->route('slider.index')->with('message', 'Slide telah dihapus');
-        } 
+        }
     }
 }

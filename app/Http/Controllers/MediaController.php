@@ -3,19 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Media;
-use Validator;
-use Illuminate\Http\Request;
 use File;
+use Illuminate\Http\Request;
 use Image;
 use Str;
+use Validator;
 
 class MediaController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    
     /**
      * Display a listing of the resource.
      *
@@ -23,8 +18,9 @@ class MediaController extends Controller
      */
     public function index()
     {
-        $getModul = Media::orderBy('id','desc')->paginate(20)->onEachSide(2);
-        return view('panel.media.index',['data'=>$getModul]);
+        $getModul = Media::orderBy('id', 'desc')->paginate(20)->onEachSide(2);
+
+        return view('panel.media.index', ['data' => $getModul]);
     }
 
     /**
@@ -40,33 +36,33 @@ class MediaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $media = $request->file('filemedia');
-        if ($media != "") {
+        if ($media != '') {
             foreach ($media as $value) {
                 $newPicture = new Media;
                 $ext = $value->guessClientExtension();
                 $mimeType = $value->getClientMimeType();
-                $newdate = date("YmdHis");
+                $newdate = date('YmdHis');
                 $origName = preg_replace('/\\.[^.\\s]{3,4}$/', '', $value->getClientOriginalName());
-                $path = $value->storeAs("foto", Str::slug($origName . "-" . $newdate).".".$ext, 'uploadfile');
+                $path = $value->storeAs('foto', Str::slug($origName.'-'.$newdate).'.'.$ext, 'uploadfile');
                 $newPicture->path = $path;
                 $newPicture->mime = $mimeType;
 
-                $image = Image::make(public_path("files/".$path));
-                $image->resize(220, null,  function ($constraint) {
+                $image = Image::make(public_path('files/'.$path));
+                $image->resize(220, null, function ($constraint) {
                     $constraint->aspectRatio();
                 });
-                $new220Pic = Str::slug($origName. "_" . $newdate . "-resize-220");
-                $image->save(public_path("files/foto/" . $new220Pic . "." . $ext));
-                $newPicture->path_220 = "foto/" . $new220Pic . "." . $ext;
+                $new220Pic = Str::slug($origName.'_'.$newdate.'-resize-220');
+                $image->save(public_path('files/foto/'.$new220Pic.'.'.$ext));
+                $newPicture->path_220 = 'foto/'.$new220Pic.'.'.$ext;
                 $newPicture->save();
             }
         }
+
         return redirect()->route('media.index')->with('message', 'File telah ditambah');
     }
 
@@ -79,10 +75,11 @@ class MediaController extends Controller
     public function destroy($id)
     {
         $modul = Media::find($id);
-        $image_path = public_path("files/".$modul->path);
+        $image_path = public_path('files/'.$modul->path);
         if ($modul->delete()) {
             if (File::exists($image_path)) {
                 File::delete($image_path);
+
                 return redirect()->back()->with('message', 'Gambar telah dihapus');
             }
         }
@@ -92,9 +89,9 @@ class MediaController extends Controller
     {
         $validator = Validator::make(
             $request->all(),
-            ['files'       => 'nullable|image|mimes:jpeg,png,jpg,gif',]
+            ['files' => 'nullable|image|mimes:jpeg,png,jpg,gif']
         );
-        $dataFailImage = array();
+        $dataFailImage = [];
         $dataFailImage['status'] = 0;
         $dataFailImage['message'] = 'Upload Failed, File Tidak diizinkan!';
         $dataFailImage['imageId'] = null;
@@ -104,24 +101,24 @@ class MediaController extends Controller
         }
         $modul = new Media;
         $media = $request->file('files');
-        if ($media != "") {
+        if ($media != '') {
             $ext = $media->guessClientExtension();
             $mimeType = $media->getClientMimeType();
-            $newdate = date("YmdHis");
+            $newdate = date('YmdHis');
             $origName = preg_replace('/\\.[^.\\s]{3,4}$/', '', $media->getClientOriginalName());
-            $origName = str_replace(" ","-",$origName);
-            $path = $media->storeAs("foto", $origName . "_" . $newdate . "." . $ext, 'uploadfile');
+            $origName = str_replace(' ', '-', $origName);
+            $path = $media->storeAs('foto', $origName.'_'.$newdate.'.'.$ext, 'uploadfile');
             $modul->path = $path;
             $modul->mime = $mimeType;
 
-            $image = Image::make(public_path("files/".$path));
-            $image->resize(220, null,  function ($constraint) {
+            $image = Image::make(public_path('files/'.$path));
+            $image->resize(220, null, function ($constraint) {
                 $constraint->aspectRatio();
             });
-            $image->save(public_path("files/foto/" . $origName. "_" . $newdate . "-resize-220". "." . $ext));
-            $modul->path_220 = "foto/" . $origName . "_" . $newdate . "-resize-220" . "." . $ext;
+            $image->save(public_path('files/foto/'.$origName.'_'.$newdate.'-resize-220'.'.'.$ext));
+            $modul->path_220 = 'foto/'.$origName.'_'.$newdate.'-resize-220'.'.'.$ext;
         }
-        $dataReturn = array();
+        $dataReturn = [];
         if ($modul->save()) {
             $dataReturn['status'] = 1;
             $dataReturn['message'] = 'Upload Succes';
@@ -137,17 +134,17 @@ class MediaController extends Controller
         return $dataReturn;
     }
 
-    
-
     public function modalshow()
     {
-        $getModul = Media::orderBy('id','desc')->paginate(18)->onEachSide(2);
+        $getModul = Media::orderBy('id', 'desc')->paginate(18)->onEachSide(2);
+
         return view('panel.media.modal', ['data' => $getModul]);
     }
 
     public function modalShowGallery(Request $request)
     {
-        $getModul = Media::orderBy('id','desc')->paginate(18)->onEachSide(2);
-        return view('panel.media.modal_gallery', ['data' => $getModul,'container'=>$request->mediaIds]);
+        $getModul = Media::orderBy('id', 'desc')->paginate(18)->onEachSide(2);
+
+        return view('panel.media.modal_gallery', ['data' => $getModul, 'container' => $request->mediaIds]);
     }
 }

@@ -2,66 +2,62 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Berita;
-use App\Models\Media;
-use App\Models\Pdf;
-use App\Models\Pesan;
 use App\Models\Agenda;
-use App\Models\Pengumuman;
+use App\Models\Media;
+use App\Models\Document;
+use App\Models\Announcement;
+use App\Models\Post;
 use App\Models\User;
 use Arr;
 
 class DashboardController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function getPosts()
     {
-        $getPosts = Berita::get()->count();
+        $getPosts = Post::get()->count();
+
         return $getPosts;
     }
 
     public function getMedia()
     {
         $getPhoto = Media::count();
-        $getPdf = Pdf::count();
-        $total = $getPhoto+$getPdf;
-        $mediaTotal = Arr::add(['photo'=>$getPhoto,'pdf'=>$getPdf],'media',$total);
+        $getDocument = Document::count();
+        $total = $getPhoto + $getDocument;
+        $mediaTotal = Arr::add(['photo' => $getPhoto, 'document' => $getDocument], 'media', $total);
+
         return $mediaTotal;
     }
 
     public function getMessage()
     {
-        $getAll = Pesan::count();
-        $unread = Pesan::where('status',0)->count();
-        return $totalMessasge = Arr::add(['unread'=>$unread],'total',$getAll);
+        return $totalMessasge = Arr::add(['unread' => 0], 'total', 0);
     }
 
     public function getAgenda()
     {
         $getAgenda = Agenda::count();
+
         return $getAgenda;
     }
 
-    public function getPengumuman()
+    public function getAnnouncement()
     {
-        $getPengumuman = Pengumuman::count();
-        return $getPengumuman;
+        $getAnnouncement = Announcement::count();
+
+        return $getAnnouncement;
     }
 
     public function getUsers()
     {
         $getUsers = User::count();
+
         return $getUsers;
     }
-    
+
     public function index()
     {
-        return view('panel.home')->with('posts',$this->getPosts())->with('medias',$this->getMedia())->with('message',$this->getMessage())->with('agenda',$this->getAgenda())->with('pengumuman',$this->getPengumuman())->with('users',$this->getUsers());
+        return view('panel.home')->with('posts', $this->getPosts())->with('medias', $this->getMedia())->with('message', $this->getMessage())->with('agenda', $this->getAgenda())->with('announcement', $this->getAnnouncement())->with('users', $this->getUsers());
     }
 }

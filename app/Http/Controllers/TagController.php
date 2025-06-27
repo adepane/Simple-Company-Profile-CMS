@@ -9,11 +9,6 @@ use Str;
 class TagController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +17,8 @@ class TagController extends Controller
     public function index()
     {
         $getModul = Tag::paginate(10)->onEachSide(2);
-        return view('panel.tag.index',['data'=>$getModul]);
+
+        return view('panel.tag.index', ['data' => $getModul]);
     }
 
     /**
@@ -38,22 +34,20 @@ class TagController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name'          => 'required|unique:tags',
+            'name' => 'required|unique:tags',
         ]);
         $modul = new Tag;
         $modul->name = $request->name;
         $modul->slug = Str::slug($request->name);
         if ($modul->save()) {
             return redirect()->route('tag.index')->with('message', 'Tag telah ditambah');
-        } 
+        }
     }
-
 
     /**
      * Show the form for editing the specified resource.
@@ -64,28 +58,28 @@ class TagController extends Controller
     public function edit($id)
     {
         $data = Tag::find($id);
+
         return view('panel.tag.edit', ['data' => $data]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name'          => 'required',
-            'slug'          => 'required|unique:tags',
+            'name' => 'required',
+            'slug' => 'required|unique:tags',
         ]);
         $modul = Tag::find($id);
         $modul->name = $request->name;
         $modul->slug = Str::slug($request->slug);
         if ($modul->update()) {
             return redirect()->route('tag.index')->with('message', 'Tag telah diupdate');
-        } 
+        }
     }
 
     /**
@@ -101,6 +95,4 @@ class TagController extends Controller
             return redirect()->back()->with('message', 'Tag telah dihapus');
         }
     }
-
-    
 }

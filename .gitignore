@@ -1,3 +1,13 @@
 /vendor
 /storage/installed
 .env
+/.idea/blade.xml
+/.idea/git_toolbox_prj.xml
+/.idea/jsLinters/jshint.xml
+/.idea/laravel-idea.xml
+/.idea/modules.xml
+/.idea/php.xml
+/.idea/phpunit.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/Simple-Company-Profile-CMS.iml
+/.idea/vcs.xml

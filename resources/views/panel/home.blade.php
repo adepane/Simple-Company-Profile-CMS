@@ -62,7 +62,7 @@
                                         {!!$medias['media']!!} Items Media
                                     </span>
                                     <span class="kt-widget17__desc">
-                                        {!!$medias['photo']!!} Photos & {!!$medias['pdf']!!} PDFs
+                                        {!!$medias['photo']!!} Photos & {!!$medias['document']!!} Documents
                                     </span>
 
                                 </div>
@@ -131,10 +131,10 @@
                                             </g>
                                         </svg> </span>
                                     <span class="kt-widget17__subtitle">
-                                        Pengumuman
+                                        Announcement
                                     </span>
                                     <span class="kt-widget17__desc">
-                                        {!!$pengumuman!!} Pengumuman
+                                        {!!$announcement!!} Announcement
                                     </span>
                                 </div>
                                 <div class="kt-widget17__item">
@@ -184,7 +184,7 @@
                             </div>
                             <div class="form-group">
                                 <?php
-                                    $kategori = App\Models\Kategori::pluck('name','id')->all();
+                                    $kategori = App\Models\Category::pluck('name','id')->all();
                                 ?>
                                 <select class="form-control select2" name="kategori" id="kategori_berita" required>
                                     <option value="">Pilih Kategori</option>
@@ -232,14 +232,14 @@
         var content = $('#draft_content').val();
         if (title != "") {
             axios({
-                url:"{{route('berita.quickDraft')}}",
+                url:"{{route('post.quickDraft')}}",
                 data:{
                     'title': title,
                     'content': content,
                     '_token': '{{csrf_token()}}'
                 },
                 method:'post',
-                
+
             })
             .then(response => {
                 if (response.data.status == 1) {

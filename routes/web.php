@@ -1,25 +1,24 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\BeritaController;
-use App\Http\Controllers\KategoriController;
-use App\Http\Controllers\TagController;
-use App\Http\Controllers\HalamanController;
-use App\Http\Controllers\MediaController;
-use App\Http\Controllers\PdfController;
-use App\Http\Controllers\LayoutController;
-use App\Http\Controllers\MenuController;
 use App\Http\Controllers\AgendaController;
-use App\Http\Controllers\SliderController;
-use App\Http\Controllers\UsersController;
-use App\Http\Controllers\PengumumanController;
-use App\Http\Controllers\PesanController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GalleryController;
-use App\Http\Controllers\IklanController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdvertisementController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\LayoutController;
+use App\Http\Controllers\MediaController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SliderController;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\UsersController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +34,6 @@ use App\Http\Controllers\SettingController;
 Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/hubungi', [HomeController::class, 'showContactUs']);
-Route::post('/hubungi', [HomeController::class, 'kirimPesan'])->name('home.kirimPesan');
 
 Route::get('/p/{slug}', [HomeController::class, 'showPage'])->name('home.showPage');
 
@@ -48,8 +46,8 @@ Route::get('/topik/{slug}', [HomeController::class, 'showCategories'])->name('ho
 Route::get('/agenda', [HomeController::class, 'listAgenda'])->name('home.listAgenda');
 Route::get('/agenda/{id}/{slug}', [HomeController::class, 'showAgenda'])->name('home.showAgenda');
 
-Route::get('/pengumuman', [HomeController::class, 'listPengumuman'])->name('home.listPengumuman');
-Route::get('/pengumuman/{id}/{slug}', [HomeController::class, 'showPengumuman'])->name('home.showPengumuman');
+Route::get('/announcement', [HomeController::class, 'listAnnouncement'])->name('home.listAnnouncement');
+Route::get('/announcement/{id}/{slug}', [HomeController::class, 'showAnnouncement'])->name('home.showAnnouncement');
 
 Route::get('/galeri', [HomeController::class, 'listGallery'])->name('home.listGallery');
 Route::get('/galeri/{id}', [HomeController::class, 'showGallery'])->name('home.showGallery');
@@ -57,25 +55,25 @@ Route::get('/galeri/{id}', [HomeController::class, 'showGallery'])->name('home.s
 Route::get('/search', [HomeController::class, 'showSearch']);
 
 Auth::routes();
-Route::group(['prefix' => 'panelroom'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/', [DashboardController::class, 'index']);
-    Route::post('berita/addTags', [BeritaController::class, 'addTags'])->name('berita.addTags');
+    Route::post('post/addTags', [PostController::class, 'addTags'])->name('post.addTags');
 
-    Route::post('quickdraft', [BeritaController::class, 'quickDraft'])->name('berita.quickDraft');
+    Route::post('quickdraft', [PostController::class, 'quickDraft'])->name('post.quickDraft');
 
-    Route::resource('berita', BeritaController::class);
-    Route::resource('kategori', KategoriController::class);
+    Route::resource('post', PostController::class);
+    Route::resource('kategori', CategoryController::class);
     Route::resource('tag', TagController::class);
-    Route::resource('halaman', HalamanController::class);
+    Route::resource('pages', PageController::class);
 
     Route::get('media/modal', [MediaController::class, 'modalshow'])->name('media.modal');
     Route::get('media/modal-gallery', [MediaController::class, 'modalShowGallery'])->name('media.modal_gallery');
     Route::match(['post', 'patch'], 'media/ajaxstore', [MediaController::class, 'ajaxStore'])->name('media.ajaxstore');
     Route::resource('media', MediaController::class);
 
-    Route::get('pdf/modal', [PdfController::class, 'modalshow'])->name('pdf.modal');
-    Route::post('pdf/ajaxstore', [PdfController::class, 'ajaxStore'])->name('pdf.ajaxstore');
-    Route::resource('pdf', PdfController::class);
+    Route::get('document/modal', [DocumentController::class, 'modalshow'])->name('document.modal');
+    Route::post('document/ajaxstore', [DocumentController::class, 'ajaxStore'])->name('document.ajaxstore');
+    Route::resource('document', DocumentController::class);
 
     Route::resource('menu', LayoutController::class);
 
@@ -87,10 +85,9 @@ Route::group(['prefix' => 'panelroom'], function () {
 
     Route::resource('slider', SliderController::class);
     Route::resource('users', UsersController::class);
-    Route::resource('pengumuman', PengumumanController::class);
-    Route::resource('pesan', PesanController::class);
+    Route::resource('announcement', AnnouncementController::class);
     Route::resource('gallery', GalleryController::class);
-    Route::resource('iklan', IklanController::class);
+    Route::resource('advertisement', AdvertisementController::class);
     Route::delete('setting/deleted', [SettingController::class, 'deleted'])->name('setting.deleted');
     Route::resource('setting', SettingController::class);
 });

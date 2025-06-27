@@ -37,10 +37,10 @@
             </div>
 
             <div class="form-group row">
-                <input type="hidden" id="imageIdnews" value="{{ $data->id_media }}" name="id_media">
+                <input type="hidden" id="imageIdnews" value="{{ $data->media_id }}" name="media_id">
                 <div class="offset-2 col-10">
                     <div class="preview-pic">
-                        @if (!empty($data->id_media))
+                        @if (!empty($data->media_id))
                         @if (!empty($data->media->path))
                         <img src="{{ asset("files/".$data->media->path) }}" width="100%" alt="">
                         @else
@@ -53,9 +53,9 @@
                     <div class="offset-4">
                         <span class="btn btn-success fileinput-button">
                             <i class="fa fa-upload"></i>
-                            <span class="changeupload {!! (!empty($data->id_media))?"":" d-none" !!}">Ganti
+                            <span class="changeupload {!! (!empty($data->media_id))?"":" d-none" !!}">Ganti
                                 Gambar</span>
-                            <span class="uploadnew {!! (!empty($data->id_media))?" d-none":"" !!}">Unggah Gambar</span>
+                            <span class="uploadnew {!! (!empty($data->media_id))?" d-none":"" !!}">Unggah Gambar</span>
 
                             <input id="fileupload" type="file" name="files">
                         </span>

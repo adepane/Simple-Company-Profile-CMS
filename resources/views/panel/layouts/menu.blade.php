@@ -14,7 +14,7 @@
             </svg></span><span class="kt-menu__link-text">Dashboard</span></a>
 </li>
 
-<li class="kt-menu__item  kt-menu__item--submenu {{ CMS::set_open('berita') }} {{ CMS::set_open('kategori') }} {{ CMS::set_open('tag') }}"
+<li class="kt-menu__item  kt-menu__item--submenu {{ CMS::set_open('post') }} {{ CMS::set_open('kategori') }} {{ CMS::set_open('tag') }}"
     aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:;"
         class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-icon"><svg xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
@@ -32,12 +32,12 @@
             class="kt-menu__ver-arrow la la-angle-right"></i></a>
     <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
         <ul class="kt-menu__subnav">
-            <li class="kt-menu__item {{ CMS::set_active('berita.index') }} {{ CMS::set_active('berita.edit') }}"
-                aria-haspopup="true"><a href="{{ route('berita.index') }}" class="kt-menu__link "><i
+            <li class="kt-menu__item {{ CMS::set_active('post.index') }} {{ CMS::set_active('post.edit') }}"
+                aria-haspopup="true"><a href="{{ route('post.index') }}" class="kt-menu__link "><i
                         class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                         class="kt-menu__link-text">Semua Berita</span></a></li>
-            <li class="kt-menu__item {{ CMS::set_active('berita.create') }}" aria-haspopup="true"><a
-                    href="{{ route('berita.create') }}" class="kt-menu__link "><i
+            <li class="kt-menu__item {{ CMS::set_active('post.create') }}" aria-haspopup="true"><a
+                    href="{{ route('post.create') }}" class="kt-menu__link "><i
                         class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                         class="kt-menu__link-text">Tambah Baru</span></a></li>
             <li class="kt-menu__item {{ CMS::setActive('kategori') }}" aria-haspopup="true"><a
@@ -75,8 +75,8 @@
                     href="{{ route('media.index') }}" class="kt-menu__link "><i
                         class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                         class="kt-menu__link-text">Photo / Gambar</span></a></li>
-            <li class="kt-menu__item {{ CMS::setActive('pdf') }}" aria-haspopup="true"><a
-                    href="{{ route('pdf.index') }}" class="kt-menu__link "><i
+            <li class="kt-menu__item {{ CMS::setActive('document') }}" aria-haspopup="true"><a
+                    href="{{ route('document.index') }}" class="kt-menu__link "><i
                         class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                         class="kt-menu__link-text">PDF</span></a></li>
         </ul>
@@ -138,7 +138,7 @@
         </ul>
     </div>
 </li>
-<li class="kt-menu__item  kt-menu__item--submenu {{ CMS::set_open('halaman') }}" aria-haspopup="true"
+<li class="kt-menu__item  kt-menu__item--submenu {{ CMS::set_open('pages') }}" aria-haspopup="true"
     data-ktmenu-submenu-toggle="hover"><a href="javascript:;" class="kt-menu__link kt-menu__toggle"><span
             class="kt-menu__link-icon"><svg xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
@@ -152,18 +152,18 @@
                         transform="translate(17.825568, 11.945519) rotate(-19.000000) translate(-17.825568, -11.945519) "
                         x="16.3255682" y="2.94551858" width="3" height="18" rx="1" />
                 </g>
-            </svg></span><span class="kt-menu__link-text">Halaman</span><i
+            </svg></span><span class="kt-menu__link-text">Pages</span><i
             class="kt-menu__ver-arrow la la-angle-right"></i></a>
     <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
         <ul class="kt-menu__subnav">
-            <li class="kt-menu__item {{ CMS::set_active('halaman.index') }} {{ CMS::set_active('halaman.edit') }}"
-                aria-haspopup="true"><a href="{{ route('halaman.index') }}" class="kt-menu__link "><i
+            <li class="kt-menu__item {{ CMS::set_active('pages.index') }} {{ CMS::set_active('pages.edit') }}"
+                aria-haspopup="true"><a href="{{ route('pages.index') }}" class="kt-menu__link "><i
                         class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
-                        class="kt-menu__link-text">Semua Halaman</span></a></li>
-            <li class="kt-menu__item {{ CMS::set_active('halaman.create') }}" aria-haspopup="true"><a
-                    href="{{ route('halaman.create') }}" class="kt-menu__link "><i
+                        class="kt-menu__link-text">All Pages</span></a></li>
+            <li class="kt-menu__item {{ CMS::set_active('pages.create') }}" aria-haspopup="true"><a
+                    href="{{ route('pages.create') }}" class="kt-menu__link "><i
                         class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
-                        class="kt-menu__link-text">Tambah Baru</span></a></li>
+                        class="kt-menu__link-text">Add New</span></a></li>
         </ul>
     </div>
 </li>
@@ -182,7 +182,7 @@
                 </g>
             </svg></span><span class="kt-menu__link-text">Agenda</span></a>
 </li>
-<li class="kt-menu__item  kt-menu__item--submenu {{ CMS::set_open('pengumuman') }} {{ CMS::set_open('pesan') }} {{ CMS::set_open('iklan') }}"
+<li class="kt-menu__item  kt-menu__item--submenu {{ CMS::set_open('announcement') }} {{ CMS::set_open('advertisement') }}"
     aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:;"
         class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-icon"><svg xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
@@ -202,18 +202,14 @@
             class="kt-menu__ver-arrow la la-angle-right"></i></a>
     <div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
         <ul class="kt-menu__subnav">
-            <li class="kt-menu__item {{ CMS::setActive('pengumuman') }}" aria-haspopup="true"><a
-                    href="{{route('pengumuman.index')}}" class="kt-menu__link "><i
+            <li class="kt-menu__item {{ CMS::setActive('announcement') }}" aria-haspopup="true"><a
+                    href="{{route('announcement.index')}}" class="kt-menu__link "><i
                         class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                         class="kt-menu__link-text">Pengumuman</span></a></li>
-            <li class="kt-menu__item {{ CMS::setActive('pesan') }}" aria-haspopup="true"><a
-                    href="{{route('pesan.index')}}" class="kt-menu__link "><i
+            <li class="kt-menu__item {{ CMS::setActive('advertisement') }}" aria-haspopup="true"><a
+                    href="{{route('advertisement.index')}}" class="kt-menu__link "><i
                         class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
-                        class="kt-menu__link-text">Pesan</span></a></li>
-            <li class="kt-menu__item {{ CMS::setActive('iklan') }}" aria-haspopup="true"><a
-                    href="{{route('iklan.index')}}" class="kt-menu__link "><i
-                        class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
-                        class="kt-menu__link-text">Iklan</span></a></li>
+                        class="kt-menu__link-text">Advertisement</span></a></li>
         </ul>
     </div>
 </li>

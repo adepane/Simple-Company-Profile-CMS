@@ -66,7 +66,7 @@
                                             class="disqus-comment-count"
                                             data-disqus-url="{!! route('home.showPost',['id'=>$item->id,'post'=>$item->slug]) !!}">Comments</span></span>
                                     <span class="mb-10 text-gray-darkgray mr-10 font-13"><i
-                                            class="fa fa-tag mr-5 text-theme-colored"></i>{{$item->kategories->name}}</span>
+                                            class="fa fa-tag mr-5 text-theme-colored"></i>{{$item->category->name}}</span>
                                     <div class="clearfix"></div>
                                     <p class="mt-10">{{CMS::excerpt($item->content)}}</p>
                                     <div class="mt-10">

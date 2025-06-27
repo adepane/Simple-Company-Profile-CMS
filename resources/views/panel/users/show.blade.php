@@ -39,7 +39,6 @@
                             <div class="kt-widget__subhead">
                                 <a href="#"><i class="flaticon2-new-email"></i>{{ $data->email }}</a>
                                 <a href="#"><i class="flaticon2-calendar-3"></i>{{ $data->username }}</a>
-                                <a href="#"><i class="flaticon2-placeholder"></i>{{ $data->id_profile }}</a>
                             </div>
                         </div>
                     </div>

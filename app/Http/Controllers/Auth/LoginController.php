@@ -45,7 +45,7 @@ class LoginController extends Controller
     }
 
     public function login(Request $request)
-    {   
+    {
         $input = $request->all();
         $this->validate($request, [
             'email' => 'required',
@@ -53,11 +53,10 @@ class LoginController extends Controller
         ]);
 
         $fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-        if(auth()->attempt(array($fieldType => $input['email'], 'password' => $input['password'])))
-        {
+        if (auth()->attempt([$fieldType => $input['email'], 'password' => $input['password']])) {
             return redirect()->route('dashboard');
-        }else{
-            return redirect()->back()->with('message','User/Email or Password Are Wrong.');
+        } else {
+            return redirect()->back()->with('message', 'User/Email or Password Are Wrong.');
         }
     }
 }

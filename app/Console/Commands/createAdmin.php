@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\User;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 
 class CreateAdmin extends Command
@@ -37,14 +37,14 @@ class CreateAdmin extends Command
      *
      * @return int
      */
-
     public function checkPass()
     {
         $password = $this->secret('Enter password ');
         $confirmPassword = $this->secret('Confirm password ');
         if ($password != $confirmPassword) {
-            $this->error("Your Passwords do not match");
-            $this->line("=======================");
+            $this->error('Your Passwords do not match');
+            $this->line('=======================');
+
             return $this->checkPass();
         } else {
             return $password;
@@ -53,16 +53,18 @@ class CreateAdmin extends Command
 
     public function checkUser()
     {
-        $user = $this->ask("Enter Username (Minimum 6 Characters)");
+        $user = $this->ask('Enter Username (Minimum 6 Characters)');
         if (strlen($user) < 6) {
-            $this->error("Minimum character length is 6");
-            $this->line("======================");
+            $this->error('Minimum character length is 6');
+            $this->line('======================');
+
             return $this->checkUser();
         }
         $getUser = User::where('username', $user)->exists();
         if ($getUser) {
-            $this->error("Username already exists");
-            $this->line("=======================");
+            $this->error('Username already exists');
+            $this->line('=======================');
+
             return $this->checkUser();
         } else {
             return $user;
@@ -76,11 +78,11 @@ class CreateAdmin extends Command
         $email = $this->ask('Enter email ');
         $password = $this->checkPass();
 
-        if ($this->confirm("Are you sure you want to create this user?" . "\n" .
-            "Name: " . $fullName . "\n" .
-            "Username: " . $username . "\n" .
-            "Email: " . $email . "\n" .
-            "Password: [hidden]")) {
+        if ($this->confirm('Are you sure you want to create this user?'."\n".
+            'Name: '.$fullName."\n".
+            'Username: '.$username."\n".
+            'Email: '.$email."\n".
+            'Password: [hidden]')) {
             User::query()
                 ->create([
                     'name' => $fullName,
@@ -88,10 +90,12 @@ class CreateAdmin extends Command
                     'email' => $email,
                     'password' => Hash::make($password),
                 ]);
-            $this->info("The admin account has been created successfully.");
+            $this->info('The admin account has been created successfully.');
+
             return self::SUCCESS;
         } else {
-            $this->info("No changes were made.");
+            $this->info('No changes were made.');
+
             return self::SUCCESS;
         }
     }

@@ -8,16 +8,11 @@ use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    
     public function index()
     {
         $getModul = User::paginate(10)->onEachSide(2);
-        return view('panel.users.index',["data"=>$getModul]);
+
+        return view('panel.users.index', ['data' => $getModul]);
     }
 
     public function create()
@@ -29,9 +24,9 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'username'          => 'required|unique:users',
+            'username' => 'required|unique:users',
             'email' => 'required|unique:users',
-            'password' => 'required|confirmed|min:8'
+            'password' => 'required|confirmed|min:8',
         ]);
 
         $user = User::create([
@@ -40,18 +35,21 @@ class UsersController extends Controller
             'username' => $request->username,
             'password' => Hash::make($request->password),
         ]);
+
         return redirect()->route('users.index')->with('message', 'User telah ditambah');
     }
 
     public function show($id)
     {
         $getModul = User::find($id);
-        return view('panel.users.show',['data'=>$getModul]);
+
+        return view('panel.users.show', ['data' => $getModul]);
     }
 
     public function edit($id)
     {
         $getModul = User::find($id);
+
         return view('panel.users.edit', ['data' => $getModul]);
     }
 
@@ -59,12 +57,12 @@ class UsersController extends Controller
     {
         $this->validate($request, [
             'username' => 'required|unique:users,username,'.$id,
-            'email' => 'required|unique:users,email,' . $id,
+            'email' => 'required|unique:users,email,'.$id,
         ]);
 
         if ($request->password != null) {
             $this->validate($request, [
-                'password' => 'required|confirmed|min:8'
+                'password' => 'required|confirmed|min:8',
             ]);
         }
         $user = User::find($id);
@@ -74,9 +72,8 @@ class UsersController extends Controller
         if ($request->password != null) {
             $user->password = Hash::make($request->password);
         }
-        if($user->update())
-        {
-            return redirect()->route('users.show',$id)->with('message', 'Users telah diupdate');
+        if ($user->update()) {
+            return redirect()->route('users.show', $id)->with('message', 'Users telah diupdate');
         }
     }
 
@@ -84,7 +81,7 @@ class UsersController extends Controller
     {
         $modul = User::find($id);
         if ($modul->delete()) {
-            return redirect()->back()->with('message','User telah dihapus');
+            return redirect()->back()->with('message', 'User telah dihapus');
         }
     }
 }

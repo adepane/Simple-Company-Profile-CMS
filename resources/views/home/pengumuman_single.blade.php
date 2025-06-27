@@ -1,23 +1,23 @@
 @extends('home._app')
 @push('header')
-<title>{!! $data->judul !!} - {!! CMS::getSetting('tagline') !!}</title>
+<title>{!! $data->title !!} - {!! CMS::getSetting('tagline') !!}</title>
 <meta name="description" content="{!! CMS::excerpt($data->content,20) !!}" />
 <?php
-    $keyw = explode(" ",strtolower($data->judul));
+    $keyw = explode(" ",strtolower($data->title));
 ?>
 <meta name="keywords" content="{!! implode(" , ",$keyw) !!}" />
 <meta name="robots" content="index,follow" />
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="PMI Musi Banyuasin" />
-<meta property="og:title" content="{!!$data->judul!!}" />
+<meta property="og:title" content="{!!$data->title!!}" />
 <meta property="og:description" content="{!! CMS::excerpt($data->content,20) !!}" />
-<meta property="og:url" content="{!! route('home.showPost',['id'=>$data->id,'post'=>$data->slug])!!}" />
-<meta property="og:image" content="{!!CMS::getImage($data->id_media)!!}" />
+<meta property="og:url" content="{!! route('home.showAnnouncement',['id'=>$data->id,'slug'=>$data->slug])!!}" />
+<meta property="og:image" content="{!!CMS::getImage($data->media_id)!!}" />
 <meta property="og:image:type" content="image/jpeg" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="{!!$data->judul!!}" />
+<meta name="twitter:title" content="{!!$data->title!!}" />
 <meta name="twitter:description" content="{!! CMS::excerpt($data->content,20) !!}" />
-<meta name="twitter:image:src" content="{!!CMS::getImage($data->id_media)!!}" />
+<meta name="twitter:image:src" content="{!!CMS::getImage($data->media_id)!!}" />
 @endpush
 @section('content')
 <section>
@@ -27,7 +27,7 @@
                 <div class="blog-posts single-post">
                     <article class="post clearfix mb-0">
                         <div class="entry-header mb-20">
-                            <div class="post-thumb thumb mb-10"> <img src="{!!CMS::getImage($data->id_media)!!}" alt=""
+                            <div class="post-thumb thumb mb-10"> <img src="{!!CMS::getImage($data->media_id)!!}" alt=""
                                     class="img-responsive img-fullwidth"> </div>
                             <span class="pl-10"><em>{!!$data->ket_photo!!}</em></span>
                         </div>
@@ -44,7 +44,7 @@
                                 </div>
                                 <div class="media-body pl-15">
                                     <div class="event-content pull-left flip">
-                                        <h4 class="entry-title text-black text-uppercase m-0">{{$data->judul}}</h4>
+                                        <h4 class="entry-title text-black text-uppercase m-0">{{$data->title}}</h4>
                                         <span class="mb-10 text-gray-darkgray mr-10 font-13"><i
                                                 class="fa fa-commenting-o mr-5 text-theme-colored"></i> <span
                                                 class="disqus-comment-count"
@@ -53,13 +53,13 @@
                                 </div>
                             </div>
                             {!!$data->content!!}
-                            @if (!empty($data->id_pdf))
+                            @if (!empty($data->document_id))
                             <div class="tagline p-0 pt-20 mt-5">
                                 <div class="row">
                                     <div class="col-md-8">
                                         <div class="tags">
                                             <p class="mb-10">Dokumen: </p>
-                                            <a href="{{CMS::getPdf($data->id_pdf)}}"
+                                            <a href="{{CMS::getPdf($data->document_id)}}"
                                                 class="btn btn-primary">DOWNLOAD</a>
                                         </div>
                                     </div>
