@@ -34,7 +34,7 @@
                     <input class="form-control" type="text" value="{{ $data->name }}" id="name" name="name" />
                 </div>
             </div>
-            
+
             <div class="form-group row">
                 <label class="label-form-control col-2" for="slug" id="label-slug">Username</label>
                 <div class="col-8">
@@ -46,7 +46,7 @@
                 </span>
                 @enderror
             </div>
-            
+
             <div class="form-group row">
                 <label class="label-form-control col-2" for="slug" id="label-slug">E-mail</label>
                 <div class="col-8">
@@ -58,7 +58,7 @@
                 </span>
                 @enderror
             </div>
-            
+
             <div class="form-group row">
                 <label class="label-form-control col-2" for="slug" id="label-slug">Password</label>
                 <div class="col-8">
@@ -70,20 +70,14 @@
                 </span>
                 @enderror
             </div>
-            
+
             <div class="form-group row">
                 <label class="label-form-control col-2" for="slug" id="label-slug">Re-Password</label>
                 <div class="col-8">
                     <input class="form-control" type="password" value="" id="password_confirmation" name="password_confirmation" />
                 </div>
             </div>
-            
-            <div class="form-group row">
-                <label class="label-form-control col-2" for="slug" id="label-slug">Profile</label>
-                <div class="col-8">
-                    <input class="form-control" type="text" value="{{ $data->id_profile }}" id="id_profile" name="id_profile" />
-                </div>
-            </div>
+
 
         </div>
 
