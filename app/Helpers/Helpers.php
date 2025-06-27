@@ -10,11 +10,11 @@ use App\Models\Layout;
 use App\Models\Media;
 use App\Models\Menu;
 use App\Models\Document;
-use App\Models\Pengumuman;
 use App\Models\Pesan;
 use App\Models\Post;
 use App\Models\Settings;
 use App\Models\Slider;
+use App\Models\Announcement;
 use Request;
 use Route;
 use Str;
@@ -212,7 +212,7 @@ class Helpers
         $segment = Request::segment(1);
         $news = Post::where('status', 1)
             ->where(function ($x) use ($segment, $idEx) {
-                if ($segment != 'p' && $segment != 'pengumuman') {
+                if ($segment != 'p' && $segment != 'announcement') {
                     if ($idEx != null) {
                         $x->where('id', '!=', $idEx);
                     }
@@ -311,7 +311,7 @@ class Helpers
 
     public static function getAnnouncement($limit = 4)
     {
-        $announcement = Pengumuman::limit($limit)->get();
+        $announcement = Announcement::limit($limit)->get();
 
         return $announcement;
     }
